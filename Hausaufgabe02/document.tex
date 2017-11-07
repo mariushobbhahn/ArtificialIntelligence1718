@@ -1,0 +1,406 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{lscape}
+\usepackage[ngerman]{babel}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bbm}
+\usepackage{mathtools}
+\usepackage{array}
+\usepackage{paralist}
+\usepackage{tabularx}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage[ruled]{algorithm}
+%\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{hyperref}
+\usepackage{textcomp}
+%\usepackage{ulsy}
+\usepackage{array}
+%Bäume, Automaten:
+%\usepackage{qtree}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{gensymb}
+\usepackage{siunitx}
+%Seitenlayout
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyheadoffset{30pt}
+\setlength{\headheight}{41pt}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\ggT}{\text{ggT}}
+\newcommand{\abs}[1]{\ensuremath{ | #1 |}}
+\newcommand{\norm}[1]{\ensuremath{ \lVert #1 \rVert}}
+\newcommand{\qq}[1]{\glqq #1\grqq}
+\newcommand{\todo}[1]{{\color{red}\textbf{TODO: #1}}}
+\renewcommand{\matrix}[1]{\begin{pmatrix}#1\end{pmatrix}}
+%Schicke Vektoren mit \vec{}
+\newcount\colveccount
+\newcommand*\colvec[1]{
+	\global\colveccount#1
+	\begin{pmatrix}
+		\colvecnext
+	}
+	\def\colvecnext#1{
+		#1
+		\global\advance\colveccount-1
+		\ifnum\colveccount>0
+		\\
+		\expandafter\colvecnext
+		\else
+	\end{pmatrix}
+	\fi
+}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+%\renewcommand{\thesubsection}{Exercise \arabic{subsection}}
+\lhead{Marius Hobbhahn\\Marc Tomasek}
+\chead{{\Large Artificial Intelligence}\\ {\Large Übungsblatt 2}}
+\rhead{\today}
+\cfoot{{Seite \thepage} von \pageref*{LastPage}}
+\begin{document}
+	
+
+	
+\subsection*{Exercise 1a}
+\begin{center}
+	\begin{tikzpicture}[scale=0.2]
+	\tikzstyle{every node}+=[inner sep=0pt]
+	\draw [black] (26.3,-16.3) circle (3);
+	\draw (26.3,-16.3) node {$dice\mbox{ }1$};
+	\draw [black] (18.5,-26.4) circle (3);
+	\draw (18.5,-26.4) node {$dice\mbox{ }2$};
+	\draw [black] (33.8,-26.4) circle (3);
+	\draw (33.8,-26.4) node {$dice\mbox{ }2$};
+	\draw [black] (14.6,-36.8) circle (3);
+	\draw (14.6,-36.8) node {$-4$};
+	\draw [black] (22.3,-36.8) circle (3);
+	\draw (22.3,-36.8) node {$6$};
+	\draw [black] (30.1,-36.8) circle (3);
+	\draw (30.1,-36.8) node {$6$};
+	\draw [black] (37.8,-36.8) circle (3);
+	\draw (37.8,-36.8) node {$16$};
+	\draw [black] (24.47,-18.67) -- (20.33,-24.03);
+	\fill [black] (20.33,-24.03) -- (21.22,-23.7) -- (20.43,-23.09);
+	\draw (21.83,-19.94) node [left] {$1-5$};
+	\draw [black] (17.45,-29.21) -- (15.65,-33.99);
+	\fill [black] (15.65,-33.99) -- (16.4,-33.42) -- (15.47,-33.07);
+	\draw (15.79,-30.78) node [left] {$1-5$};
+	\draw [black] (19.53,-29.22) -- (21.27,-33.98);
+	\fill [black] (21.27,-33.98) -- (21.47,-33.06) -- (20.53,-33.4);
+	\draw (21.16,-30.81) node [right] {$6$};
+	\draw [black] (28.09,-18.71) -- (32.01,-23.99);
+	\fill [black] (32.01,-23.99) -- (31.94,-23.05) -- (31.13,-23.65);
+	\draw (29.47,-22.74) node [left] {$6$};
+	\draw [black] (32.79,-29.23) -- (31.11,-33.97);
+	\fill [black] (31.11,-33.97) -- (31.84,-33.39) -- (30.9,-33.05);
+	\draw (31.19,-30.83) node [left] {$1-5$};
+	\draw [black] (34.88,-29.2) -- (36.72,-34);
+	\fill [black] (36.72,-34) -- (36.9,-33.07) -- (35.97,-33.43);
+	\draw (35.05,-32.44) node [left] {$6$};
+	\end{tikzpicture}
+\end{center}
+There exists a chance of $(\frac{5}{6})^2 = 69\%$ of losing if you only play once. \\
+If you decide to play twice your chances of losing money drop below $50\%$ to $(\frac{5}{6})^4 = 48\%$, 
+making it a fair game for you. \\
+The average expected income per game is $E(w) = (\frac{5}{6})^2 \cdot (-4) + 2\cdot \frac{5}{6} \cdot \frac{1}{6} \cdot 6 + (\frac{1}{6})^2 \cdot 16 =1.56$ Euro.
+
+\subsection*{Exercise 1b}
+\begin{table}[h]
+	\centering
+	\label{my-label}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{Prisoner A \textbackslash Prisoner B} & \textbf{Schnitches on A}   & \textbf{Stays silent}          \\ \hline
+		\textbf{Snitches on B}                        & 3 Yrs \textbackslash 3 Yrs & 0 Yrs \textbackslash 5 Yrs     \\ \hline
+		\textbf{Stays silent}                         & 5 Yrs \textbackslash 0 Yrs & 0.5 Yrs \textbackslash 0.5 Yrs \\ \hline
+	\end{tabular}
+	\caption{Prison sentences}
+\end{table}
+%TODO Prisoner's Dilemma
+
+\subsection*{Exercise 2a BFS}
+\begin{center}
+	\begin{tikzpicture}[scale=0.2]
+	\tikzstyle{every node}+=[inner sep=0pt]
+	\draw [black] (4.9,-4.2) circle (3);
+	\draw (4.9,-4.2) node {$1$};
+	\draw [black] (4.9,-15.3) circle (3);
+	\draw (4.9,-15.3) node {$1$};
+	\draw [black] (32.1,-15.3) circle (3);
+	\draw (32.1,-15.3) node {$1$};
+	\draw [black] (4.9,-26.8) circle (3);
+	\draw (4.9,-26.8) node {$1$};
+	\draw [black] (13.9,-26.8) circle (3);
+	\draw (13.9,-26.8) node {$1$};
+	\draw [black] (32.1,-26.8) circle (3);
+	\draw (32.1,-26.8) node {$1$};
+	\draw [black] (58.1,-26.8) circle (3);
+	\draw (58.1,-26.8) node {$1$};
+	\draw [black] (4.9,-38.2) circle (3);
+	\draw (4.9,-38.2) node {$1$};
+	\draw [black] (13.9,-38.2) circle (3);
+	\draw (13.9,-38.2) node {$1$};
+	\draw [black] (22.3,-38.2) circle (3);
+	\draw (22.3,-38.2) node {$1$};
+	\draw [black] (32.1,-38.2) circle (3);
+	\draw (32.1,-38.2) node {$1$};
+	\draw [black] (41.3,-38.2) circle (3);
+	\draw (41.3,-38.2) node {$1$};
+	\draw [black] (58.1,-38.2) circle (3);
+	\draw (58.1,-38.2) node {$1$};
+	\draw [black] (58.1,-38.2) circle (2.4);
+	\draw [black] (74.2,-39.3) circle (3);
+	\draw (74.2,-39.3) node {$0$};
+	\draw [black] (22.3,-49.9) circle (3);
+	\draw (22.3,-49.9) node {$0$};
+	\draw [black] (13.9,-49.9) circle (3);
+	\draw (13.9,-49.9) node {$0$};
+	\draw [black] (41.3,-50.5) circle (3);
+	\draw (41.3,-50.5) node {$0$};
+	\draw [black] (50.4,-50.5) circle (3);
+	\draw (50.4,-50.5) node {$0$};
+	\draw [black] (58.1,-50.5) circle (3);
+	\draw (58.1,-50.5) node {$0$};
+	\draw [black] (66.4,-50.5) circle (3);
+	\draw (66.4,-50.5) node {$0$};
+	\draw [black] (74.2,-50.5) circle (3);
+	\draw (74.2,-50.5) node {$0$};
+	\draw [black] (4.9,-7.2) -- (4.9,-12.3);
+	\fill [black] (4.9,-12.3) -- (5.4,-11.5) -- (4.4,-11.5);
+	\draw [black] (4.9,-18.3) -- (4.9,-23.8);
+	\fill [black] (4.9,-23.8) -- (5.4,-23) -- (4.4,-23);
+	\draw [black] (4.9,-29.8) -- (4.9,-35.2);
+	\fill [black] (4.9,-35.2) -- (5.4,-34.4) -- (4.4,-34.4);
+	\draw [black] (6.75,-17.66) -- (12.05,-24.44);
+	\fill [black] (12.05,-24.44) -- (11.95,-23.5) -- (11.16,-24.12);
+	\draw [black] (13.9,-29.8) -- (13.9,-35.2);
+	\fill [black] (13.9,-35.2) -- (14.4,-34.4) -- (13.4,-34.4);
+	\draw [black] (13.9,-41.2) -- (13.9,-46.9);
+	\fill [black] (13.9,-46.9) -- (14.4,-46.1) -- (13.4,-46.1);
+	\draw [black] (15.65,-40.64) -- (20.55,-47.46);
+	\fill [black] (20.55,-47.46) -- (20.49,-46.52) -- (19.68,-47.1);
+	\draw [black] (15.68,-29.22) -- (20.52,-35.78);
+	\fill [black] (20.52,-35.78) -- (20.45,-34.84) -- (19.64,-35.44);
+	\draw [black] (7.68,-5.33) -- (29.32,-14.17);
+	\fill [black] (29.32,-14.17) -- (28.77,-13.4) -- (28.39,-14.33);
+	\draw [black] (32.1,-18.3) -- (32.1,-23.8);
+	\fill [black] (32.1,-23.8) -- (32.6,-23) -- (31.6,-23);
+	\draw [black] (32.1,-29.8) -- (32.1,-35.2);
+	\fill [black] (32.1,-35.2) -- (32.6,-34.4) -- (31.6,-34.4);
+	\draw [black] (33.98,-29.13) -- (39.42,-35.87);
+	\fill [black] (39.42,-35.87) -- (39.3,-34.93) -- (38.52,-35.56);
+	\draw [black] (41.3,-41.2) -- (41.3,-47.5);
+	\fill [black] (41.3,-47.5) -- (41.8,-46.7) -- (40.8,-46.7);
+	\draw [black] (43.08,-40.61) -- (48.62,-48.09);
+	\fill [black] (48.62,-48.09) -- (48.54,-47.15) -- (47.74,-47.74);
+	\draw [black] (58.1,-41.2) -- (58.1,-47.5);
+	\fill [black] (58.1,-47.5) -- (58.6,-46.7) -- (57.6,-46.7);
+	\draw [black] (59.78,-40.69) -- (64.72,-48.01);
+	\fill [black] (64.72,-48.01) -- (64.69,-47.07) -- (63.86,-47.63);
+	\draw [black] (58.1,-29.8) -- (58.1,-35.2);
+	\fill [black] (58.1,-35.2) -- (58.6,-34.4) -- (57.6,-34.4);
+	\draw [black] (34.84,-16.51) -- (55.36,-25.59);
+	\fill [black] (55.36,-25.59) -- (54.83,-24.81) -- (54.42,-25.72);
+	\draw [black] (60.47,-28.64) -- (71.83,-37.46);
+	\fill [black] (71.83,-37.46) -- (71.51,-36.57) -- (70.89,-37.36);
+	\draw [black] (74.2,-42.3) -- (74.2,-47.5);
+	\fill [black] (74.2,-47.5) -- (74.7,-46.7) -- (73.7,-46.7);
+	\end{tikzpicture}
+\end{center}
+
+\subsection*{Exercise 2b DFS}
+\begin{center}
+	\begin{tikzpicture}[scale=0.2]
+	\tikzstyle{every node}+=[inner sep=0pt]
+	\draw [black] (4.9,-4.2) circle (3);
+	\draw (4.9,-4.2) node {$2$};
+	\draw [black] (4.9,-15.3) circle (3);
+	\draw (4.9,-15.3) node {$3$};
+	\draw [black] (32.1,-15.3) circle (3);
+	\draw (32.1,-15.3) node {$2$};
+	\draw [black] (4.9,-26.8) circle (3);
+	\draw (4.9,-26.8) node {$2$};
+	\draw [black] (13.9,-26.8) circle (3);
+	\draw (13.9,-26.8) node {$3$};
+	\draw [black] (32.1,-26.8) circle (3);
+	\draw (32.1,-26.8) node {$3$};
+	\draw [black] (58.1,-26.8) circle (3);
+	\draw (58.1,-26.8) node {$1$};
+	\draw [black] (4.9,-38.2) circle (3);
+	\draw (4.9,-38.2) node {$1$};
+	\draw [black] (13.9,-38.2) circle (3);
+	\draw (13.9,-38.2) node {$3$};
+	\draw [black] (22.3,-38.2) circle (3);
+	\draw (22.3,-38.2) node {$1$};
+	\draw [black] (32.1,-38.2) circle (3);
+	\draw (32.1,-38.2) node {$1$};
+	\draw [black] (41.3,-38.2) circle (3);
+	\draw (41.3,-38.2) node {$3$};
+	\draw [black] (58.1,-38.2) circle (3);
+	\draw (58.1,-38.2) node {$1$};
+	\draw [black] (58.1,-38.2) circle (2.4);
+	\draw [black] (74.2,-39.3) circle (3);
+	\draw (74.2,-39.3) node {$0$};
+	\draw [black] (22.3,-49.9) circle (3);
+	\draw (22.3,-49.9) node {$1$};
+	\draw [black] (13.9,-49.9) circle (3);
+	\draw (13.9,-49.9) node {$1$};
+	\draw [black] (41.3,-50.5) circle (3);
+	\draw (41.3,-50.5) node {$1$};
+	\draw [black] (50.4,-50.5) circle (3);
+	\draw (50.4,-50.5) node {$1$};
+	\draw [black] (58.1,-50.5) circle (3);
+	\draw (58.1,-50.5) node {$0$};
+	\draw [black] (66.4,-50.5) circle (3);
+	\draw (66.4,-50.5) node {$0$};
+	\draw [black] (74.2,-50.5) circle (3);
+	\draw (74.2,-50.5) node {$0$};
+	\draw [black] (4.9,-7.2) -- (4.9,-12.3);
+	\fill [black] (4.9,-12.3) -- (5.4,-11.5) -- (4.4,-11.5);
+	\draw [black] (4.9,-18.3) -- (4.9,-23.8);
+	\fill [black] (4.9,-23.8) -- (5.4,-23) -- (4.4,-23);
+	\draw [black] (4.9,-29.8) -- (4.9,-35.2);
+	\fill [black] (4.9,-35.2) -- (5.4,-34.4) -- (4.4,-34.4);
+	\draw [black] (6.75,-17.66) -- (12.05,-24.44);
+	\fill [black] (12.05,-24.44) -- (11.95,-23.5) -- (11.16,-24.12);
+	\draw [black] (13.9,-29.8) -- (13.9,-35.2);
+	\fill [black] (13.9,-35.2) -- (14.4,-34.4) -- (13.4,-34.4);
+	\draw [black] (13.9,-41.2) -- (13.9,-46.9);
+	\fill [black] (13.9,-46.9) -- (14.4,-46.1) -- (13.4,-46.1);
+	\draw [black] (15.65,-40.64) -- (20.55,-47.46);
+	\fill [black] (20.55,-47.46) -- (20.49,-46.52) -- (19.68,-47.1);
+	\draw [black] (15.68,-29.22) -- (20.52,-35.78);
+	\fill [black] (20.52,-35.78) -- (20.45,-34.84) -- (19.64,-35.44);
+	\draw [black] (7.68,-5.33) -- (29.32,-14.17);
+	\fill [black] (29.32,-14.17) -- (28.77,-13.4) -- (28.39,-14.33);
+	\draw [black] (32.1,-18.3) -- (32.1,-23.8);
+	\fill [black] (32.1,-23.8) -- (32.6,-23) -- (31.6,-23);
+	\draw [black] (32.1,-29.8) -- (32.1,-35.2);
+	\fill [black] (32.1,-35.2) -- (32.6,-34.4) -- (31.6,-34.4);
+	\draw [black] (33.98,-29.13) -- (39.42,-35.87);
+	\fill [black] (39.42,-35.87) -- (39.3,-34.93) -- (38.52,-35.56);
+	\draw [black] (41.3,-41.2) -- (41.3,-47.5);
+	\fill [black] (41.3,-47.5) -- (41.8,-46.7) -- (40.8,-46.7);
+	\draw [black] (43.08,-40.61) -- (48.62,-48.09);
+	\fill [black] (48.62,-48.09) -- (48.54,-47.15) -- (47.74,-47.74);
+	\draw [black] (58.1,-41.2) -- (58.1,-47.5);
+	\fill [black] (58.1,-47.5) -- (58.6,-46.7) -- (57.6,-46.7);
+	\draw [black] (59.78,-40.69) -- (64.72,-48.01);
+	\fill [black] (64.72,-48.01) -- (64.69,-47.07) -- (63.86,-47.63);
+	\draw [black] (58.1,-29.8) -- (58.1,-35.2);
+	\fill [black] (58.1,-35.2) -- (58.6,-34.4) -- (57.6,-34.4);
+	\draw [black] (34.84,-16.51) -- (55.36,-25.59);
+	\fill [black] (55.36,-25.59) -- (54.83,-24.81) -- (54.42,-25.72);
+	\draw [black] (60.47,-28.64) -- (71.83,-37.46);
+	\fill [black] (71.83,-37.46) -- (71.51,-36.57) -- (70.89,-37.36);
+	\draw [black] (74.2,-42.3) -- (74.2,-47.5);
+	\fill [black] (74.2,-47.5) -- (74.7,-46.7) -- (73.7,-46.7);
+	\end{tikzpicture}
+\end{center}
+
+\subsection*{Exercise 2c DFIDF}
+\begin{center}
+	\begin{tikzpicture}[scale=0.2]
+	\tikzstyle{every node}+=[inner sep=0pt]
+	\draw [black] (4.9,-4.2) circle (3);
+	\draw (4.9,-4.2) node {$7$};
+	\draw [black] (4.9,-15.3) circle (3);
+	\draw (4.9,-15.3) node {$7$};
+	\draw [black] (32.1,-15.3) circle (3);
+	\draw (32.1,-15.3) node {$5$};
+	\draw [black] (4.9,-26.8) circle (3);
+	\draw (4.9,-26.8) node {$3$};
+	\draw [black] (13.9,-26.8) circle (3);
+	\draw (13.9,-26.8) node {$4$};
+	\draw [black] (32.1,-26.8) circle (3);
+	\draw (32.1,-26.8) node {$4$};
+	\draw [black] (58.1,-26.8) circle (3);
+	\draw (58.1,-26.8) node {$2$};
+	\draw [black] (4.9,-38.2) circle (3);
+	\draw (4.9,-38.2) node {$1$};
+	\draw [black] (13.9,-38.2) circle (3);
+	\draw (13.9,-38.2) node {$1$};
+	\draw [black] (22.3,-38.2) circle (3);
+	\draw (22.3,-38.2) node {$1$};
+	\draw [black] (32.1,-38.2) circle (3);
+	\draw (32.1,-38.2) node {$1$};
+	\draw [black] (41.3,-38.2) circle (3);
+	\draw (41.3,-38.2) node {$1$};
+	\draw [black] (58.1,-38.2) circle (3);
+	\draw (58.1,-38.2) node {$1$};
+	\draw [black] (58.1,-38.2) circle (2.4);
+	\draw [black] (74.2,-39.3) circle (3);
+	\draw (74.2,-39.3) node {$0$};
+	\draw [black] (22.3,-49.9) circle (3);
+	\draw (22.3,-49.9) node {$0$};
+	\draw [black] (13.9,-49.9) circle (3);
+	\draw (13.9,-49.9) node {$0$};
+	\draw [black] (41.3,-50.5) circle (3);
+	\draw (41.3,-50.5) node {$0$};
+	\draw [black] (50.4,-50.5) circle (3);
+	\draw (50.4,-50.5) node {$0$};
+	\draw [black] (58.1,-50.5) circle (3);
+	\draw (58.1,-50.5) node {$0$};
+	\draw [black] (66.4,-50.5) circle (3);
+	\draw (66.4,-50.5) node {$0$};
+	\draw [black] (74.2,-50.5) circle (3);
+	\draw (74.2,-50.5) node {$0$};
+	\draw [black] (4.9,-7.2) -- (4.9,-12.3);
+	\fill [black] (4.9,-12.3) -- (5.4,-11.5) -- (4.4,-11.5);
+	\draw [black] (4.9,-18.3) -- (4.9,-23.8);
+	\fill [black] (4.9,-23.8) -- (5.4,-23) -- (4.4,-23);
+	\draw [black] (4.9,-29.8) -- (4.9,-35.2);
+	\fill [black] (4.9,-35.2) -- (5.4,-34.4) -- (4.4,-34.4);
+	\draw [black] (6.75,-17.66) -- (12.05,-24.44);
+	\fill [black] (12.05,-24.44) -- (11.95,-23.5) -- (11.16,-24.12);
+	\draw [black] (13.9,-29.8) -- (13.9,-35.2);
+	\fill [black] (13.9,-35.2) -- (14.4,-34.4) -- (13.4,-34.4);
+	\draw [black] (13.9,-41.2) -- (13.9,-46.9);
+	\fill [black] (13.9,-46.9) -- (14.4,-46.1) -- (13.4,-46.1);
+	\draw [black] (15.65,-40.64) -- (20.55,-47.46);
+	\fill [black] (20.55,-47.46) -- (20.49,-46.52) -- (19.68,-47.1);
+	\draw [black] (15.68,-29.22) -- (20.52,-35.78);
+	\fill [black] (20.52,-35.78) -- (20.45,-34.84) -- (19.64,-35.44);
+	\draw [black] (7.68,-5.33) -- (29.32,-14.17);
+	\fill [black] (29.32,-14.17) -- (28.77,-13.4) -- (28.39,-14.33);
+	\draw [black] (32.1,-18.3) -- (32.1,-23.8);
+	\fill [black] (32.1,-23.8) -- (32.6,-23) -- (31.6,-23);
+	\draw [black] (32.1,-29.8) -- (32.1,-35.2);
+	\fill [black] (32.1,-35.2) -- (32.6,-34.4) -- (31.6,-34.4);
+	\draw [black] (33.98,-29.13) -- (39.42,-35.87);
+	\fill [black] (39.42,-35.87) -- (39.3,-34.93) -- (38.52,-35.56);
+	\draw [black] (41.3,-41.2) -- (41.3,-47.5);
+	\fill [black] (41.3,-47.5) -- (41.8,-46.7) -- (40.8,-46.7);
+	\draw [black] (43.08,-40.61) -- (48.62,-48.09);
+	\fill [black] (48.62,-48.09) -- (48.54,-47.15) -- (47.74,-47.74);
+	\draw [black] (58.1,-41.2) -- (58.1,-47.5);
+	\fill [black] (58.1,-47.5) -- (58.6,-46.7) -- (57.6,-46.7);
+	\draw [black] (59.78,-40.69) -- (64.72,-48.01);
+	\fill [black] (64.72,-48.01) -- (64.69,-47.07) -- (63.86,-47.63);
+	\draw [black] (58.1,-29.8) -- (58.1,-35.2);
+	\fill [black] (58.1,-35.2) -- (58.6,-34.4) -- (57.6,-34.4);
+	\draw [black] (34.84,-16.51) -- (55.36,-25.59);
+	\fill [black] (55.36,-25.59) -- (54.83,-24.81) -- (54.42,-25.72);
+	\draw [black] (60.47,-28.64) -- (71.83,-37.46);
+	\fill [black] (71.83,-37.46) -- (71.51,-36.57) -- (70.89,-37.36);
+	\draw [black] (74.2,-42.3) -- (74.2,-47.5);
+	\fill [black] (74.2,-47.5) -- (74.7,-46.7) -- (73.7,-46.7);
+	\end{tikzpicture}
+\end{center}
+
+\end{document}
