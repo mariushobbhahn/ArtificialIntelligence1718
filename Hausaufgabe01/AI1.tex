@@ -1,0 +1,165 @@
+\documentclass[a4paper,12pt]{scrartcl}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath,amssymb,amsthm,amsfonts}
+\usepackage{cancel}
+\usepackage{graphicx}
+\usepackage{ifthen}
+\usepackage{tikz}
+\usepackage[utf8]{inputenc} %Umlaute & Co
+%\usepackage{fancyhdr}
+\usepackage{enumerate}
+\usepackage{changepage}
+\usepackage{pgfplots}
+\usepgfplotslibrary{fillbetween}
+\usepackage{mathtools}
+\usepackage{titlesec}
+\usepackage{bm} %Fette Mathezeichen
+\usepackage[onehalfspacing]{setspace}
+\usepackage{scrpage2}
+\usepackage{enumitem}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+\usepackage[normalem]{ulem}
+\usetikzlibrary{trees,automata,arrows,shapes}
+\pagestyle{empty}
+\usepackage{marvosym}
+\usepackage{gensymb}
+
+
+\newcounter{aufgabe}
+\def\tand{&}
+\newcommand{\makeTableLine}[2][0]{%
+	\setcounter{aufgabe}{1}%
+	\whiledo{\value{aufgabe} < #1}%
+	{%
+		#2\tand\stepcounter{aufgabe}%
+	}
+}
+\newcommand{\aufgTable}[1]{
+	\def\spalten{\numexpr #1 + 1 \relax}
+	\begin{tabular}{|*{\spalten}{p{1cm}|}}
+		\makeTableLine[\spalten]{A\theaufgabe}$\Sigma$~~\\ \hline
+		\rule{0pt}{15pt}\makeTableLine[\spalten]{}\\
+	\end{tabular}
+}
+\newcounter{n}
+\def\header#1#2#3#4#5#6#7{\pagestyle{empty}
+	\begin{minipage}[t]{0.47\textwidth}
+		\begin{flushleft}
+			{\textbf{ #4}}\\
+			#5\\
+			Tutor: tba
+		\end{flushleft}
+	\end{minipage}
+	\begin{minipage}[t]{0.5\textwidth}
+		\begin{flushright}
+			#6 \vspace{0.5cm}\\
+			\aufgTable{#7}
+		\end{flushright}
+	\end{minipage}
+	\vspace{1cm}
+	\begin{center}
+		{\Large\textbf{ Blatt #1}}
+		
+		{(Abgabe #3)}
+	\end{center}}
+	
+\newcommand{\heading}[3]{\header{#1}{}{#2}{AI}{\textit{Marius Hobbhahn 4003731, \\ Marc Tomasek 3999493}
+		}{WS 17/18}{#3}
+		\vspace{1cm}}
+
+
+\newcount\colveccount
+\newcommand*\colvec[1]{
+        \global\colveccount#1
+        \begin{pmatrix}
+        \colvecnext
+}
+\def\colvecnext#1{
+        #1
+        \global\advance\colveccount-1
+        \ifnum\colveccount>0
+                \\
+                \expandafter\colvecnext
+        \else
+                \end{pmatrix}
+        \fi
+}
+
+
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\renewcommand{\vec}[1]{\colvec{#1}}
+\newcommand{\vecspace}[2]{\langle#1\rangle_{#2}}
+\newcommand{\vecspaceR}[1]{\vecspace{#1}{\R}}
+
+\renewcommand{\thesubsection}{(\alph{subsection})}
+
+\newenvironment{subaufgaben}{\begin{enumerate}[label=\alph*)]}{\end{enumerate}}
+
+\newcommand{\beh}{\textbf{Behauptung: \ }}
+\newenvironment{beweis}{\textbf{Beweis: }}{\begin{center} $\Box$ \end{center}}
+\newcommand{\set}[1]{\left\lbrace #1 \right\rbrace}
+	
+\begin{document}
+	\titleformat{\section}[block]{}{}{0em}{\textbf{Aufgabe \thesection :} }{}
+	\titleformat{\subsection}[block]{}{}{0em}{\thesubsection \ }{}
+	\heading{1}{\today}{3} %Blatt No., Abgabe, Anzahl Aufgaben
+	\pagestyle{scrheadings}
+\section{}
+	\begin{tabular}{l || l | l }
+		environment & variable & justification \\ \hline
+		Table Tennis & fully observable & I can see all relevant parameters at any given time \\
+		& strategic & my choice of action is dependent on my opponent \\
+		& sequential & the experience is continuous \\
+		& dynamic & I need to react when my opponent shoots the ball back \\
+		& continuous & no clearly defined percepts and actions \\
+		& multi-agent & two-player game \\  \hline
+		UNO & partially observable & I can't see what the next card is and what my opponents hand is \\
+		& stochastic & the next card is uncertain \\
+		& episodic & every play can be seen as an atomic action \\
+		& static & I can take as much time as I want to deliberate \\
+		& discrete & clearly define percepts and actions \\
+		& multi-agent & there are opponents \\ \hline
+		Archery & fully observable & I can see the bow, my hand and the target \\
+		& deterministic & only my shot determines the outcome \\
+		& episodic & the process of one shot can be defined as an episode \\
+		& static & I can wait as long as I want before I shoot and the env does not change \\
+		& discrete & one shot is a clearly defined episode \\
+		& Single agent & my shot is independent of other players \\ \hline
+		Autonomous  & partially observable & there are things the car might not be able to perceive \\
+		& stochastic &  mostly strategic but there are random elements such as weather conditions\\
+		& sequential & there are no reasonable atomic episodes \\
+		& dynamic & environment changes over time while the care is deliberating \\
+		& continuous & no limited number of clearly defined percepts and actions \\
+		& multi-agent & there are other participants in traffic 
+	\end{tabular}
+\section{}
+	\begin{tabular}{l || l | l }
+		environment & variable & justification \\ \hline 
+		Chess & multi-agent & two players \\
+		& discrete & limited number of actions \\
+		& fully observable & I can theoretically compute all states of the game \\
+		& static & I can deliberate as long as I want \\ \hline
+		one-armed bandit & Single-agent & I play alone \\
+		& uncertain & I don't know the outcome of the machine (as a casual player) \\
+		& discrete & limited number of actions and perceptions \\
+		& static & I can wait as long as I want during rolls \\ \hline
+		Car Driving & multi-agent & I share the traffic with other people \\
+		& partially observable & I am unable to see everything in traffic \\
+		& sequential & no atomic actions \\
+		& continuous & no clearly defined actions and perceptions \\ \hline
+		Puzzle & Single-agent & I play alone \\
+		& fully observable & I know every piece and part  \\
+		& static & environment unchanged while deliberating \\
+		& discrete & limited number of actions, i.e. putting a piece somewhere \\ \hline 
+		Skat & multi-agent & 3 players \\
+		& discrete & limited number of actions  \\
+		& partially observable & I don't know the hands of other players or the skat \\
+		& static & technically I could wait for a long time to deliberate \\ \hline 
+	\end{tabular}
+\section{}
+	
+	 
+\end{document}
