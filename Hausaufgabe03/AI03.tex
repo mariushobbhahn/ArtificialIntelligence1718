@@ -76,8 +76,40 @@
 	
 \section{Greedy best-first search}
 \subsection*{a)}
+	\begin{tabular}{l | l | l   }
+		node & options and its heuristic & option with best heuristic \\ \hline
+		a & b: 17, d: 12 & d: 12 \\
+		d & g: 10 ,a: 17 & g: 10 \\
+		g & e: 8, i: 4, g:10& i: 4 \\
+		i & h: 5, l: 0, i: 4 & l: 0 \\
+		l & done & 
+	\end{tabular}\\ \\
+	The path we get from our heuristic therefore is: $a \rightarrow d \rightarrow g \rightarrow i \rightarrow l$\\
+	The optimal path is either: $a \rightarrow d \rightarrow g \rightarrow i \rightarrow l$ or $a \rightarrow d \rightarrow g \rightarrow i \rightarrow h \rightarrow j \rightarrow k \rightarrow l$ as can be found out by a test with dijkstra. \\
+	since the path that was found out is equivalent to one of the optimal paths we found the optimal solution. 
 \subsection*{b)}
+	\begin{tabular}{l | l | l   }
+		node & options and its heuristic & option with best heuristic \\ \hline
+		c & b:14, e: 10 & e:10 \\
+		e & g: 9, f: 5, c: 13 & f:5 \\
+		f & k: 0, h: 3, e: 10 & k:0 \\
+		k & done 		
+	\end{tabular}\\ \\
+	The path we get from our heuristic therefore is: $c \rightarrow e \rightarrow f \rightarrow k$\\
+	This is not the optimal path since the path $c \rightarrow e \rightarrow f \rightarrow h \rightarrow j \rightarrow k$ is shorter (since $14 < 19$). We did not find the optimal solution.
 \subsection*{c)}
+	\begin{tabular}{l | l | l   }
+		node & options and its heuristic & option with best heuristic \\ \hline
+		a & b: 13, d: 3 & d: 3 \\
+		d & g: 8, a: 14 & g: 8 \\
+		g & e: 6, i: 4 & i: 4 \\
+		i & h: 2, l: 1 & l: 1\\
+		l & k: 1, i: 4 & k: 1 \\
+		k & f: 4, j: 0 & j:0 \\
+		j & done   		
+	\end{tabular}\\ \\
+	The path we get from our heuristic therefore is: $a \rightarrow d \rightarrow g \rightarrow i \rightarrow l \rightarrow k \rightarrow j$. \\
+	This is not the optimal path since $a \rightarrow d \rightarrow g \rightarrow i \rightarrow h \rightarrow j$ is shorter (since $14 < 20$). We did not find the optimal solution.
 \section{Pathfinding with A*}
 \subsection*{a)}
 \subsection*{b)}
