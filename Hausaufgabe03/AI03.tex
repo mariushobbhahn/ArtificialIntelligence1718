@@ -102,14 +102,13 @@
 		node & options and its heuristic & option with best heuristic \\ \hline
 		a & b: 13, d: 3 & d: 3 \\
 		d & g: 8, a: 14 & g: 8 \\
-		g & e: 6, i: 4 & i: 4 \\
-		i & h: 2, l: 1 & l: 1\\
-		l & k: 1, i: 4 & k: 1 \\
-		k & f: 4, j: 0 & j:0 \\
-		j & done   		
+		g & e: 6, i: 4, d: 3 & d: 3 \\
+		d & g: 8, a: 14 & g: 8 \\
+		g & e: 6, i: 4, d: 3 & d: 3 \\
+		$\vdots$ & $\vdots$ & $\vdots$ \\
 	\end{tabular}\\ \\
-	The path we get from our heuristic therefore is: $a \rightarrow d \rightarrow g \rightarrow i \rightarrow l \rightarrow k \rightarrow j$. \\
-	This is not the optimal path since $a \rightarrow d \rightarrow g \rightarrow i \rightarrow h \rightarrow j$ is shorter (since $14 < 20$). We did not find the optimal solution.
+	We are not even able to get a path with this heuristic, since the heuristic is always jumping between d and g and everytime the greedy choice would be to stay in this loop. 
+	No path is obviously not the optimal path since $a \rightarrow d \rightarrow g \rightarrow i \rightarrow h \rightarrow j$ is shorter (since $14 < \infty$). We did not find the optimal solution.
 \section{Pathfinding with A*}
 \subsection*{a)}
 \subsection*{b)}
