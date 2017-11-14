@@ -1,0 +1,90 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{lscape}
+\usepackage[ngerman]{babel}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bbm}
+\usepackage{mathtools}
+\usepackage{array}
+\usepackage{paralist}
+\usepackage{tabularx}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage[ruled]{algorithm}
+%\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{hyperref}
+\usepackage{textcomp}
+%\usepackage{ulsy}
+\usepackage{array}
+%Bäume, Automaten:
+%\usepackage{qtree}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{gensymb}
+\usepackage{siunitx}
+%Seitenlayout
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyheadoffset{30pt}
+\setlength{\headheight}{41pt}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\ggT}{\text{ggT}}
+\newcommand{\abs}[1]{\ensuremath{ | #1 |}}
+\newcommand{\norm}[1]{\ensuremath{ \lVert #1 \rVert}}
+\newcommand{\qq}[1]{\glqq #1\grqq}
+\newcommand{\todo}[1]{{\color{red}\textbf{TODO: #1}}}
+\renewcommand{\matrix}[1]{\begin{pmatrix}#1\end{pmatrix}}
+%Schicke Vektoren mit \vec{}
+\newcount\colveccount
+\newcommand*\colvec[1]{
+	\global\colveccount#1
+	\begin{pmatrix}
+		\colvecnext
+	}
+	\def\colvecnext#1{
+		#1
+		\global\advance\colveccount-1
+		\ifnum\colveccount>0
+		\\
+		\expandafter\colvecnext
+		\else
+	\end{pmatrix}
+	\fi
+}
+\renewcommand{\labelenumi}{(\alph{enumi})}
+%\renewcommand{\thesubsection}{Exercise \arabic{subsection}}
+\lhead{Marius Hobbhahn\\Marc Tomasek}
+\chead{{\Large Artificial Intelligence}\\ {\Large Übungsblatt 2}}
+\rhead{\today}
+\cfoot{{Seite \thepage} von \pageref*{LastPage}}
+\begin{document}
+	
+\section{Greedy best-first search}
+\subsection*{a)}
+\subsection*{b)}
+\subsection*{c)}
+\section{Pathfinding with A*}
+\subsection*{a)}
+\subsection*{b)}
+\subsection*{c)}
+\subsection*{d)}
+\section{A* in lisp}
+	
+
+
+\end{document}
