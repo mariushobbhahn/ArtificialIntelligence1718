@@ -8,6 +8,7 @@
 \usepackage{amsthm}
 \usepackage{amsfonts}
 \usepackage{amssymb}
+\usepackage{marvosym}
 \usepackage{bbm}
 \usepackage{mathtools}
 \usepackage{array}
@@ -110,10 +111,76 @@
 	We are not even able to get a path with this heuristic, since the heuristic is always jumping between d and g and everytime the greedy choice would be to stay in this loop. 
 	No path is obviously not the optimal path since $a \rightarrow d \rightarrow g \rightarrow i \rightarrow h \rightarrow j$ is shorter (since $14 < \infty$). We did not find the optimal solution.
 \section{Pathfinding with A*}
-\subsection*{a)}
-\subsection*{b)}
-\subsection*{c)}
-\subsection*{d)}
+\subsection*{Shortest path between $a$ and $h$}
+\begin{table}[h]
+	\centering
+	\begin{tabular}{l|l}
+		Expanded Node    & Frontier           \\ \hline
+		Start with $a=0$ & $c=9, d=10, b=11$  \\
+		$a,c$            & $d=10, b=11,f=16$  \\
+		$a,c,d$          & $b=11, e=15, f=15$ \\
+		$a,c,d,b$        & $e=15, f=15$       \\
+		$a,c,d,b,e$      & $f=15, h=18$       \\
+		$a,c,d,b,e,f$    & $h=18, g=19$       \\
+		$a,c,d,b,e,f,g$  & $g=19$            
+	\end{tabular}
+\end{table}
+
+Two shortest paths were found. One of which is not optimal: $(a,d,e,h)$ leads to a distance from $a$ to $h$ of $11$ units, whereas $(a,d,f,h)$ leads to a distance of $10$, which is optimal. \\
+
+\subsection*{a}
+There exists another shortest path with a length of $10$: $(a,c,f,h)$
+
+\subsection*{b}
+An admissible heuristic never overestimates the distance to the goal, whereas a consistent heuristic only has to fulfill the following property for each node $n$ and its sucessor-nodes $n'$: 
+\begin{center}
+	$h(n) \leq c(n,a,n') + h(n')$
+\end{center}
+
+\subsection*{c}
+Let $h(d) = 6$. Now $h$ is no longer consistent: 
+\begin{align*}
+	h(d) &\leq c(d,3,e) + h(e) \\
+	\Leftrightarrow 6 &\leq 3+2 = 5  \mbox{     \Lightning} \\
+\end{align*}
+And no longer admissible, because the true distance between $d$ and $h$ is $5$. \\\\
+
+Alternatively let $h(d) = 3$. Now $h$ is no longer consistent: 
+\begin{align*}
+h(a) &\leq c(a,5,d) + h(d) \\
+\Leftrightarrow 9 &\leq 5+3 = 8  \mbox{     \Lightning} \\
+\end{align*}
+But $h$ is still admissible, because the true distance between $a$ and $d$ is $5$. \\\\
+
+\subsection*{d}
+\begin{center}
+	\begin{tikzpicture}[scale=0.2]
+	\tikzstyle{every node}+=[inner sep=0pt]
+	\draw [black] (17,-19.2) circle (3);
+	\draw (17,-19.2) node {$a$};
+	\draw [black] (26.9,-19.2) circle (3);
+	\draw (26.9,-19.2) node {$b$};
+	\draw [black] (36.8,-19.2) circle (3);
+	\draw (36.8,-19.2) node {$c$};
+	\draw [black] (20,-19.2) -- (23.9,-19.2);
+	\draw (21.95,-19.7) node [below] {$1$};
+	\draw [black] (29.9,-19.2) -- (33.8,-19.2);
+	\draw (31.85,-19.7) node [below] {$10$};
+	\end{tikzpicture}
+\end{center}
+Let $h(a)=11, h(b)=9, h(c)=0$ \\
+Inconsistent: 
+\begin{align*}
+h(a) &\leq c(a,1,b) + h(b) \\
+\Leftrightarrow 11 &\leq 1+9 = 10  \mbox{     \Lightning}
+\end{align*}
+
+\noindent Admissible: 
+\begin{align*}
+\text{True distance from } c \text{ to } a &: 11 \\
+			\text{Heuristic} &: 11 \\
+			11 \leq 11 &\Rightarrow h \text{ is admissible}
+\end{align*}
 \section{A* in lisp}
 	
 
