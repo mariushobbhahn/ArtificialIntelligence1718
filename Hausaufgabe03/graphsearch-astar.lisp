@@ -166,7 +166,7 @@
 ;; 'g' and 'h' as defined in the lecture (with default values of 0)
 ;; 'parent' node to form a linked list containing the path travelled to this
 ;;     node (in reverse) or NIL if this is the start node
-;; 'node-f' is not saved in the node struct to avoid situations where 
+;; 'node-f' is not saved in the node struct to avoid situations where
 ;;     (node-g n) + (node-h n) != (node-f n)
 ;;
 (defstruct (node) label (g 0.0) (h 0.0) parent)
@@ -177,7 +177,7 @@
 ;;
 ;; (a)
 ;;
-;; Write a function 'enumerate-neighbours' that takes the current node, the
+;; Write a function 'expand-node' that takes the current node, the
 ;; heuristic function and the set of already explored nodes and returns the
 ;; list of the new nodes to be added to the frontier.
 ;;
@@ -189,9 +189,11 @@
   "current: the node-struct of the node to be expanded
    h: the heuristic function (taking a city label as an argument)
    explored: the set of already explored nodes"
-  ;
-  ; implement me!
-  ;
+   (apply (lambda (city)
+          (if (find city-label explored :key #'node-label))
+          nil
+          (funcall h city-label))
+              (expand current-label))
 )
 
 
@@ -215,9 +217,12 @@
    h: the heuristic function (taking a city label as an argument)
    frontier: priority queue containing the cities to be examined in order of f-values
    explored: the set of already explored nodes"
-  ;
-  ; implement me!
-  ;
+    (pq-insert-all
+      (apply
+        (lambda (city)
+          (funcall h city)
+            (expand-node (first frontier) h explored)))
+              (node-f))
 )
 
 
@@ -227,13 +232,14 @@
 ;;
 ;; Implement an admissible heuristic function based on the data returned by
 ;; (get-coordinates city)
-;;
+;; We use the direct distance that we get through pythagoras.
 (defun geo-heuristic (city goal)
-  ;
-  ; implement me!
-  ;
+  (sqrt
+    (+ (expt (- (first (get-coordinates city)) (first (get-coordinates goal))) 2)
+       (expt (- (second (get-coordinates city)) (second (get-coordinates goal))) 2)))
 )
 
+;;(write (geo-heuristic Aachen Augsburg))
 
 ;;
 ;; (d)
@@ -249,9 +255,7 @@
 ;;
 (defun a*-search (start goal)
   "A*: Find a path from start to goal in this graph"
-  ;
-  ; implement me!
-  ;
+
 )
 
 ;;
