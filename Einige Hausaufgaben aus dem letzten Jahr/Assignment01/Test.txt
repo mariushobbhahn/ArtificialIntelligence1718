@@ -1,0 +1,14 @@
+(defun listN (n res)
+(if (= n 0) res (listN (- n 1) (cons n res))))
+
+(defun valueofS (start n res)
+(if (> start n) res (valueofS (+ start 2) n (+ res start))))
+
+
+
+
+(defun listSum (n s)
+(if (= s 0) (list (listN n NIL) (valueofS 1 n 0))
+		(list (listN n NIL) (valueofS 2 n 0))))
+
+(print (listSum 5 0))

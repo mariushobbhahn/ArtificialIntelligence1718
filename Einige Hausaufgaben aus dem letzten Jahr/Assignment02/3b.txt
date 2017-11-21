@@ -1,0 +1,11 @@
+(defun searchTree (a tr)
+(let ((deep (helper a tr 0)))
+(if (= deep -1) NIL 
+		 deep)))
+
+
+(defun helper (a tr level)
+ (if (null tr) (- 1 level)
+     (if (= a (car tr)) level
+	  (max  (helper a (cadr tr) (+ 1 level))
+		(helper a (caddr tr) (+ 1 level))))))

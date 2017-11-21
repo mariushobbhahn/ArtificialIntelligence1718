@@ -1,0 +1,78 @@
+; Katrin Bott, Mila Gorecki
+; Assignment 01
+
+
+; Question 3 Programming in LISP
+
+;(a) 
+; calculates faculty
+(defun factorial (n)
+(if (= n 0) 1 
+	(* n (factorial (- n 1)))))
+
+
+;(b) 
+; creates a list of integers from 1 to n
+(defun listN (n res)
+(if (= n 0) res (listN (- n 1) (cons n res))))
+
+
+;calculates the value based on s
+(defun valueofS (start n res)
+(if (> start n) res (valueofS (+ start 2) n (+ res start))))
+
+; creates a list of a list and the sum of the odd/even numbers of the list
+(defun listSum (n s)
+(if (= s 0) (list (listN n NIL) (valueofS 1 n 0))
+		(list (listN n NIL) (valueofS 2 n 0))))
+
+
+;(c)
+; help function 
+(defun scalarHelp (v1 v2 res)
+(if (= (list-length v1) 0) res
+		(scalarHelp (cdr v1) (cdr v2) (+ res (* (car v1) (car v2))))))
+
+; calculates the scalarProduct of two vectors/lists
+(defun scalarProduct (v1 v2)
+(if (/= (list-length v1) (list-length v2)) NIL
+ (scalarHelp v1 v2 0)))
+
+
+;(d)
+; inserts a real number z in a list a at position p
+(defun insert (a z p)
+(if (> p (list-length a)) a 
+(if (= p 1) (append (list z) a) 
+	     (append (list (car a)) (insert (cdr a) z (- p 1))))))
+
+
+;(e) 
+;sorts a list of reals ascending or descending
+(defun mySort (a s)
+(if (= s 0) (sorting a #'>)
+(sorting a #'<)))
+
+;sorts a list with a given function
+(defun sorting (lis fun)
+(let ((key (extreme lis fun (car lis))))
+(if (= (list-length lis) 0) NIL
+			     (append (list key) 
+	 			     (sorting (elemrm lis key) fun)))))
+
+
+;removes element from list
+(defun elemrm (lis elem)
+(if (= (car lis) elem) (cdr lis)
+			 (append (list (car lis)) (elemrm (cdr lis) elem))))
+
+
+; search for extreme value (min/max)
+; fun < provides max, fun > provides min
+(defun extreme (lis fun start)
+(if (= (list-length lis) 0) start
+(if (funcall fun start (car lis)) (extreme (cdr lis) fun (car lis))
+			   	    (extreme (cdr lis) fun start))))
+
+
+

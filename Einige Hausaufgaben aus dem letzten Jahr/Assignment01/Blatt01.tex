@@ -1,0 +1,55 @@
+\section*{Question 1: Environments for agents 1}
+\begin{itemize}
+\item \textbf{fully observable:} The agent can access the current state of its environment completely by its sensors. There are no unobserved changes relevant to the agents action.\\
+example: Chess (by looking at the chess board all information is given to determine the state of the game)
+\item \textbf{partially observable:} The agent can only access parts of the current state of its environment by its sensors. Therefore the agent need an internal representation of the environment to keep track of it.
+\\
+example: Pocker, Skat (the state of the game can not be derived only from visible information, counting cards reduces uncertainty)
+\item \textbf{deterministic:} Given current state $S$ and action $A$, there will be exactly one defined next state $S'$. There is no uncertainty (if the environment is fully observable as well).\\
+example: Tic Tac Toe
+\item \textbf{stochatic:} Next state is not determined by the current state, as there is a random component involved.\\
+example: game with a dice (e.g. Malefiz)
+\item \textbf{episodic:} Agents action depends on single episode/series of actions. There is no dependency between the agents action and other episodes.\\
+example: different games in a chess tournament (one game as episode, the agents decision for an action does not depend on games played before)
+\item \textbf{sequential:} Subdivision into episodes of actions is not possible as the performance of the agents is linked to past (and future) events and consequences.\\
+example: single chess game (each move depends on several preceeding steps and its consequences are taken into account for the decision) 
+\item \textbf{static:} No predictive model of the environment is needed, because it does not change, while the agent is processing the outcome.\\
+example: Ludo/ Mensch äger dich nicht (situation on the game board does not change while planning the next action), dead patient for medical diagnosis system
+\item \textbf{dynamic:} During decision making the environment can change, what has to be taken into account.\\
+example: car traffic, physical world
+\item \textbf{discrete:} The environment is made up by a limited number of percepts or possible actions.\\
+example: multiple choice exam (limited number where to put a tick), UNO (limited number of possible actions)
+\item \textbf{continuous:} The environment consists of a unlimited number of percept and the actions/state of the agent are described by continuous values.\\
+example: Taxi driving (there are numerous way to get from A to B in a continuous time)
+\end{itemize}
+\section*{Question 2: Environments for agents 2}
+\begin{itemize}
+\item \textbf{multi agent - discrete - fully observable - static}
+\begin{flalign*} \text{Backgammon: } &\text{two players}&\\
+&\text{limited number of possible actions}&\\
+&\text{state of the game given by visual accessible information}&\\
+&\text{situation on the game board does not change while planning}
+\end{flalign*}
+\item \textbf{single agent - deterministic - continuous- fully observable}
+\begin{flalign*} \text{image analysis system: } &\text{single system}&\\
+&\text{next state is determined by current state}&\\
+&\text{range of input values is continuous}&\\
+&\text{image reveals all information relevant for the system}
+\end{flalign*}
+\item \textbf{multi agent - partially observable - sequential - continuous}
+\begin{flalign*}
+\text{road user: }&\text{multiple agents}&\\
+&\text{at each moment the environment can only be partially accessed}&\\
+&\text{agents performance is linked to preceeding decisions and future consequences}&\\
+&\text{unlimited number of actions possible, strong dependency on other road users}
+\end{flalign*}
+\item \textbf{single agent - partially observable - static - discrete}
+\begin{flalign*} \text{Solitaire: } &\text{single player}&\\
+&\text{only the upturned cards are visible to player, while the downturned ones are not}&\\
+&\text{situation on the game board does not change while planning}&\\
+&\text{discrete moves, like upturning cards or moving cards}
+\end{flalign*}
+\end{itemize}
+
+\section*{Question 3: Programming in LISP}
+(see LISP-Code in Bott\_Gorecki\_Assignment01Q3.txt)

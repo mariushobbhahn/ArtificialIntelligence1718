@@ -1,0 +1,85 @@
+; Katrin Bott, Mila Gorecki
+; Assignment 02
+
+
+; Question 3 Programming in LISP
+
+;(a) 
+; Merging two lists a and b with the list of the sum of their values
+; by building a sorted list, by inserting the elements at the right position (insert)
+(defun listMerge (a b)
+  (labels ((listMergeHelp (a b res)
+	    (if (= (list-length  a) 0)
+	     	 res
+	     	 (listMergeHelp (cdr a) (cdr b)
+			     	 (insert (+ (car a) (car b))
+				         (insert (car b)
+					          (insert (car a) res)))))))
+   (if (= (list-length a) (list-length b))
+       (listMergeHelp a b () )
+        NIL)))
+
+; Inserting an element x into a sorted list l, if it's not already in the list
+(defun insert (x l)
+  (if (= (list-length  l) 0)
+      (list x)
+      (if (= x (car l))
+	  l
+	  (if (< x (car l))
+	      (cons x l)
+	      (cons (car l) (insert x (cdr l)))))))
+
+
+;(b)
+; searches element a in binary tree tr and returns the level of a in tr
+(defun searchTree (a tr)
+  (labels ((helper (a tr level)
+		    (if (null tr)
+		        (- 1 level)
+		        (if (= a (car tr))
+			    level
+			    (max (helper a (cadr tr) (+ 1 level))
+				 (helper a (caddr tr) (+ 1 level)))))))
+    (let ((levelOfA (helper a tr 0)))
+      (if (= levelOfA -1)
+		  NIL
+		  levelOfA))))
+
+
+
+;(c)
+; deletes an element a out of a tree tr
+(defun deleteTree (a tr)
+    (if (null  tr)
+        NIL
+        (let ((current (car tr)) ;current node
+              (right (caddr tr)) ;right subtree
+              (left (cadr tr)))  ;left subtree
+          (if (= a current) 
+              (if (null right)                     
+                  left
+                  (let ((rightCurrent (car right)))
+                       (list rightCurrent left
+                             (deleteTree rightCurrent right))))
+		(append (list current)
+			(list (deleteTree a left)
+			      (deleteTree a right)))))))
+
+
+
+;(d)
+; applies a function f to the elements of a list a
+(defun functionList (a f)
+  (if (null a)
+      NIL
+      (let ((current (funcall f (car a)))
+	    (rest (cdr a)))
+	(if (not (null current))
+	    (append (list current)
+		    (functionList rest f))
+	    (functionList rest f)))))
+
+
+
+
+
