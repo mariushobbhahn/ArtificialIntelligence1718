@@ -31,6 +31,7 @@
 \usetikzlibrary{arrows,automata}
 \usepackage{gensymb}
 \usepackage{siunitx}
+\usepackage{pgfplots}
 %Seitenlayout
 \usepackage{fancyhdr}
 \usepackage{lastpage}
@@ -67,6 +68,9 @@
 	\end{pmatrix}
 	\fi
 }
+
+
+
 \renewcommand{\labelenumi}{(\alph{enumi})}
 %\renewcommand{\thesubsection}{Exercise \arabic{subsection}}
 \lhead{Marius Hobbhahn\\Marc Tomasek}
@@ -76,7 +80,61 @@
 \begin{document}
 	
 \section{}
-
+	I didn't see that we need to start at $x_0$ but the principle is exactly the same. I hope you are able to acknowledge the understanding of the procedure. I am unfortunatly unable to rescan the pictures because the library is closed. 
+	\subsection*{a)}
+		\includegraphics[width = 0.7\textwidth]{figure_1a.png} \\
+		In this case we always take the slope of the function in a given point $p$ and check where a linear function with this slope meets the x-Axis. From the same x-Coordinate we again take the slope and repeat the procedure until the point at which we meet the x-Axis is also the coordinate we would jump to, meaning y = 0.
+	\subsection*{b)}
+		\includegraphics[width = 0.7\textwidth]{figure_1b.png} \\
+		For the minimum we want to use the same procedure like in a) though not on the function itself but on the first derivative. The given function looks like one of degree 4, the first derivative therefore is one of degree 3. On this we then apply the same idea as in a). This can be seen in the first graphic. \\
+		\includegraphics[width = 0.7\textwidth]{figure_1b_2.png} \\
+		From the assignment text it is unclear whether the function is given, or allowed to be assumed. A second version therefore is to just derive locally and go right if the value is negative and left if the derivative is positive. The distance that we go further in the given direction is proportional to the size of the result, i.e. very negative first derivatives lead to big jumps to the right and small negative results to small jumps. 
+	\subsection*{c)}
+	\begin{figure}[!h]
+		\centering
+		\includegraphics[width = \textwidth]{AI1c.png}
+		\caption{function for 1c)}
+	\end{figure}
+	The function $f(x) = x \cdot e^{-x^2}$ never converges to the root at 0 if you choose starting points too far off - that means left of the negative peak or right of the positive peak, we will be thrown of to (negative) infinity, never converging to 0.
+	\subsection*{d)}
+	$$f(x_1,x_2) = x_1^2 - 2x_1^3 + 2 \exp(x_1) - \exp(-x_2^2) - 3$$
+	Gradient/Jacobian: $$(2x_1 - 6x_1^2 + 2e^{x_1}, 2e^{-x_2^2})$$
+	Hessian of f:\\
+	$$\begin{pmatrix}
+		\frac{\delta^2 f}{\delta x_1^2} & \frac{\delta^2 f}{\delta x_1x_2} \\
+		\frac{\delta^2 f}{\delta x_2x_1} & \frac{\delta^2 f}{\delta x_2^2} \\
+	\end{pmatrix} 
+	= \begin{pmatrix}
+		2 - 12x_1 + 2e^{x_1} & 0 \\
+		0 & e^{(-x^2)} \cdot (2 - 4 x^2)
+	\end{pmatrix}
+	$$
+	Inverted Hessian of f: \\
+	$$\begin{pmatrix}
+		\frac{1}{2 - 12x_1 + 2e^{x_1}} & 0 \\
+		0 & \frac{1}{e^{(-x_2^2)} \cdot (2 - 4 x_2^2)}
+	\end{pmatrix}$$
+	Every update step is now calculated as $x \leftarrow x - H_f^{-1} (x) \cdot \nabla f(x)$\\
+	That means our first step is: \\
+	\begin{align*}
+		x_1, x_2 &= (-1,0.1) - \begin{pmatrix}
+		\frac{1}{2 - 12\cdot -1 + 2e^{-1}} & 0 \\
+		0 & \frac{1}{e^{(-0.1^2)} \cdot (2 - 4 \cdot 0.1^2)} 
+		\end{pmatrix} 
+		\cdot (2 \cdot -1 - 6 \cdot -1^2 + 2e^{-1}, 2e^{-0.1^2}) \\
+		&= (-1,0.1) - (0.32, 1.02) \\
+		&= (-1.32, -0.92)
+	\end{align*}
+	And the second step: \\
+	\begin{align*}
+		x_1, x_2 &= (-1.32, -0.92) - \begin{pmatrix}
+			\frac{1}{2 - 12\cdot -1.32 + 2e^{-1.32}} & 0 \\
+			0 & \frac{1}{e^{(-0.92^2)} \cdot (2 - 4 \cdot 0.92^2)}
+		\end{pmatrix} \cdot 
+		(2 \cdot -1.32 - 6 \cdot -1.32^2 + 2e^{-1.32}, 2e^{-0.92^2}) \\
+		&= (-1.32,-0.92) - (0.45, -1.44)\\
+		&= (-1.77, 0.52)
+	\end{align*}
 \section{}
 	\subsection*{a)}
 	\begin{center}
