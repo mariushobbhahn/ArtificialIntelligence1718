@@ -114,6 +114,8 @@ Marius Hobbhahn \\
 \header{Nr. 6}{06.12.2017}
 %---------------------------------------------------------------------------
 \section*{Aufgabe 1} %Simulated Annealing
+\subsection*{a} %Prinzip und Sinn
+Simulated annealing is a hillclimbing variant which always allows 'uphill' moves, but also allows 'downhill' moves with a probability $p$, which is exponentially reduced with a decreasing 'temperature' $T$. It can sometimes find the global maximum where normal hillclimbing can't.
 
 \subsection*{b} %Berechnung
 \begin{table}[h]
@@ -130,5 +132,38 @@ Marius Hobbhahn \\
 		5   & 0.55  & 0.05         & 0.72     & 1.24                  & 0.05  & 1                          & 0.6   \\ \hline
 	\end{tabular}
 \end{table}
+
+
+\subsection*{c} %Jemals Maximum
+We are on the fifth step at the point $(0.55, 0.72)$.
+\begin{center}
+	\includegraphics{a1c.png}
+\end{center}
+Because of $T_{n+1} = 0.5 \cdot T_n$, acceptance of values $E(x_{n+1}) < E(x_n)$ will become more and more rare, which leads to a low probabilty of moving away from the global maximum. \\
+The chance of choosing values $E(x_{n+1}) > E(x_n)$ is uninfluenced and remains $1$, which likely leads to a steady ascent towards the global maximum at $(0.7, 2.0)$ if we get small step-sizes. \\
+If in the unlikely event of a big negative step-size, for example $\Delta x_n = -0.3$ (where $E(x_{n+1}) > E(x_n)$), we could end up on the slopes of the local maximum at $(0.2, 1.0)$, which could lead to us not finding the global maximum, if no similar event occurs to get us back on the other slope (within our allowed runtime). \\\\
+If our runtime is infinite, we will always find the slopes of the global maximum from the local maximum with a step-size $0.38 < \Delta x_n < 0.61$.\\
+In conclusion, it is likely that we find the global maximum.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \end{document}
