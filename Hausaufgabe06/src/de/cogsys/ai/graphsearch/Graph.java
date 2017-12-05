@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class Graph {
 	
+	
 	public static class Point {
 		double x;
 		double y;
@@ -16,6 +17,11 @@ public class Graph {
 			this.y=y;
 		}
 	}
+	
+//	public static class Path{
+//		double distance;
+//		ArrayList<String> listOfCities = new ArrayList<String>();
+//	}
 
 	private static Map<String, Map<String, Integer>> distances;
 	
@@ -27,6 +33,33 @@ public class Graph {
 	
 	public static double distance (String city1, String city2) {
 		return distances.get(city1).get(city2);
+	}
+	
+	public static double straightLineHeuristic(Point coord1, Point coord2){
+		return(Math.sqrt(Math.pow((coord1.x - coord2.x),2) + Math.pow((coord1.y - coord2.y), 2)));
+	}
+	
+//	public static double LRTAstarCostHeuristic(String city1, String city2, Type???? H{
+//		//city2 undefinded
+//		if(!(H[0].contains(city2))){
+//			return(H[city1]);
+//		}
+//		//city2 define: normal case
+//		else{
+//			return( // c(s, a, s'
+//					straightLineHeuristic(coordinates.get(city1), coordinates.get(city2))
+//					// H[city2]
+//					+ H[city2]);
+//		}
+//	}
+	
+//	public static Path LRTAstar(String city1, String city2){
+//		
+//		//initialize our table
+//		
+//		
+//		
+//		return(p)
 	}
 	
 	public static void initGraph() {
@@ -238,6 +271,13 @@ public class Graph {
 		coordinates.put("ulm", new Point(67.17258, -14.913567));
 		coordinates.put("wilhelmshaven", new Point(-62.93731, 552.79846));
 		coordinates.put("wuerzburg", new Point(61.723507, 140.4113));
+	}
+	
+	public static void main(String[] args){
+		
+		//System.out.println(distance("koeln", "ulm"));
+		System.out.println(expand("koeln"));
+		
 	}
 	
 	

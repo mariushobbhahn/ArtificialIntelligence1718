@@ -1,0 +1,136 @@
+\documentclass[12pt,a4paper]{scrartcl}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{lscape}
+\usepackage[ngerman]{babel}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{marvosym}
+\usepackage{bbm}
+\usepackage{mathtools}
+\usepackage{array}
+\usepackage{paralist}
+\usepackage{tabularx}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage[ruled]{algorithm}
+%\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{hyperref}
+\usepackage{textcomp}
+%\usepackage{ulsy}
+\usepackage{array}
+%Bäume, Automaten:
+%\usepackage{qtree}
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+\usepackage{gensymb}
+\usepackage{siunitx}
+\usepackage{pgfplots}
+%Seitenlayout
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{1pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancyheadoffset{30pt}
+\setlength{\headheight}{41pt}
+\newcommand{\N}{\ensuremath{\mathbb{N}}}
+\newcommand{\Z}{\ensuremath{\mathbb{Z}}}
+\newcommand{\Q}{\ensuremath{\mathbb{Q}}}
+\newcommand{\R}{\ensuremath{\mathbb{R}}}
+\newcommand{\C}{\ensuremath{\mathbb{C}}}
+\newcommand{\ggT}{\text{ggT}}
+\newcommand{\abs}[1]{\ensuremath{ | #1 |}}
+\newcommand{\norm}[1]{\ensuremath{ \lVert #1 \rVert}}
+\newcommand{\qq}[1]{\glqq #1\grqq}
+\newcommand{\todo}[1]{{\color{red}\textbf{TODO: #1}}}
+\renewcommand{\matrix}[1]{\begin{pmatrix}#1\end{pmatrix}}
+%Schicke Vektoren mit \vec{}
+\newcount\colveccount
+\newcommand*\colvec[1]{
+	\global\colveccount#1
+	\begin{pmatrix}
+		\colvecnext
+	}
+	\def\colvecnext#1{
+		#1
+		\global\advance\colveccount-1
+		\ifnum\colveccount>0
+		\\
+		\expandafter\colvecnext
+		\else
+	\end{pmatrix}
+	\fi
+}
+
+
+
+\renewcommand{\labelenumi}{(\alph{enumi})}
+%\renewcommand{\thesubsection}{Exercise \arabic{subsection}}
+\lhead{Marius Hobbhahn\\Marc Tomasek}
+\chead{{\Large Artificial Intelligence}\\ {\Large Übungsblatt 2}}
+\rhead{\today}
+\cfoot{{Seite \thepage} von \pageref*{LastPage}}
+\begin{document}
+	
+\section{Simulated Annealing}
+
+\section{LRTA*}
+\subsection*{a)}
+	\begin{tabular}{|l | l | l | l |}
+		node & f-Value & explored & next \\ \hline
+		a & b:4, e:2, f:7 & - & e \\
+		e & b:4, c:8, d:8, g:8, f:7 & a & b \\
+		b & c:7, d:8, g:8, f:7 & a,e & c \\
+		c & d:8, g:8, f:7 & a,e,b & f \\
+		f & d:8, g:8 & a,e,c,b & g \\
+		g & finished & a,e,c,f,b & - 
+	\end{tabular}\\\\
+	Our Path is therefore $a \rightarrow b \rightarrow c \rightarrow d \rightarrow g$ with cost 8. Another path with the same cost would have been $a \rightarrow e \rightarrow g$ but we prioritize b over e due to alphabetical order.
+\subsection*{b)}
+	\begin{tabular}{l | l | l || l | l | l | l | l | l | l}
+		a & s & s' & H[a] & H[b] & H[c] & H[d] & H[e] & H[f] & H[g] \\ \hline
+		- & - & - & 3 & 3 & 3 & 1 & 1 & 1 & 0 \\
+		- & - & a & 3 & 3 & 3 & 1 & 1 & 1 & 0 \\
+		(a,e)  & a & e & 3 & 3 & 3 & 1 & 1 & 1 & 0 \\
+		(e,a)  & e & a & 3 & 3 & 3 & 1 & 4 & 1 & 0 \\
+		(a,b)  & a & b & 4 & 3 & 3 & 1 & 4 & 1 & 0 \\
+		(b,a)  & b & a & 4 & 5 & 3 & 1 & 4 & 1 & 0 \\
+		(a,e)  & a & e & 5 & 5 & 3 & 1 & 4 & 1 & 0 \\
+		(e,a)  & e & a & 5 & 5 & 3 & 1 & 6 & 1 & 0 \\
+		(a,b)  & a & b & 6 & 5 & 3 & 1 & 6 & 1 & 0 \\
+		(b,c)  & b & c & 6 & 6 & 3 & 1 & 6 & 1 & 0 \\
+		(c,d)  & c & d & 6 & 6 & 4 & 1 & 6 & 1 & 0 \\
+		(d,g)  & d & g & 6 & 6 & 4 & 1 & 6 & 1 & 0 \\
+	\end{tabular} \\
+\subsection*{c)}
+	we now use $H(n)$ instead of $h(n)$ as our heuristic. \\
+	\begin{tabular}{l | l | l }
+		n & h(n) & H(n) \\ \hline
+		a & 3 & 6 \\
+		b & 3 & 6 \\
+		c & 3 & 4 \\
+		d & 1 & 1 \\
+		e & 1 & 6 \\
+		f & 1 & 1 \\
+		g & 0 & 0 
+	\end{tabular}\\
+	When now apply the normal A* algorithm we get:\\
+	\begin{tabular}{|l | l | l | l |}
+		node & f-Value & explored & next \\ \hline
+		a & b:7, e:7, f:7 & -  & b \\
+		b & c:8, e:7, f:7 & a & e \\
+		e & d:8, c:8, f:7, g:8 & a,b & f \\
+		f & d:8, c:8, g:8 & a,b,e  & c \\
+		c & d:8, g:8 & a,b,e,f & d \\
+		d & g:8 & a,b,e,f,c & g \\
+		g & finished & a,b,e,f,c,d & - 
+	\end{tabular}\\\\
+	We can see that even though we might have a more accurate $H(n)$ it does not necessarily lead to a faster search. In this case we needed to expand more nodes. 
+\end{document}
