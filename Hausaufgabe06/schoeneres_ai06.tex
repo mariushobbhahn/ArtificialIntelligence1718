@@ -146,21 +146,90 @@ If our runtime is infinite, we will always find the slopes of the global maximum
 In conclusion, it is likely that we find the global maximum.
 
 
+\section*{Aufgabe 2} %Learning Real-Time A*
+\subsection*{a} %Graph-search A*
+\begin{table}[h]
+	\centering
+	\caption{Graph-search A*}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{\begin{tabular}[c]{@{}c@{}}explored nodes\\ (and their parent)\end{tabular}}} & \multicolumn{1}{c|}{\textbf{frontier f-Values}}                              & \multicolumn{1}{c|}{\textbf{best node}} \\ \hline
+		a                                                                                                          & e = 2, b = 4, f = 7                                                          & e = 2                                   \\ \hline
+		a, e(a)                                                                                                    & \begin{tabular}[c]{@{}l@{}}b = 4, f = 7, c = 8, \\ d = 8, g = 8\end{tabular} & b = 4                                   \\ \hline
+		a, e(a), b(a)                                                                                              & \begin{tabular}[c]{@{}l@{}}c = 7, f = 7, d = 8, \\ g = 8\end{tabular}        & c = 7                                   \\ \hline
+		a, e(a), b(a), c(b)                                                                                        & f = 7, d = 8, g = 8                                                          & f = 7                                   \\ \hline
+		\begin{tabular}[c]{@{}l@{}}a, e(a), b(a), c(b),\\ f(a)\end{tabular}                                        & d = 8, g = 8                                                                 & d = 8                                   \\ \hline
+		\begin{tabular}[c]{@{}l@{}}a, e(a), b(a), c(b),\\ f(a), d(c)\end{tabular}                                  & g = 8                                                                        & g = 8                                   \\ \hline
+		\begin{tabular}[c]{@{}l@{}}a, e(a), b(a), c(b),\\ f(a), d(c), g(d)\end{tabular}                            & -                                                                         & -                                       \\ \hline
+	\end{tabular}
+\end{table}
+
+\noindent The path from $a$ to $g$ is as follows: $a \rightarrow b \rightarrow c \rightarrow d \rightarrow g$ and is of length 8\\
+This path is preferred to $a \rightarrow e \rightarrow g$ due to alphabetical order when selecting the next node for expansion. \\
 
 
+\subsection*{b} %LRTA*
+The last row describes the final heuristic
+\begin{table}[h]
+	\centering
+	\caption{$a$ describes edge taken from current node $s'$ to next node $s$}
+	
+	\begin{tabular}{| l | l | l || l | l | l | l | l | l | l |}
+		\hline
+		a 	  & s' & s & H[a] & H[b] & H[c] & H[d] & H[e] & H[f] & H[g] \\ \hline
+		-     & a & - & 3 & 3 & 3 & 1 & 1 & 1 & 0 \\
+		(a,e) & a & e & 3 & 3 & 3 & 1 & \textbf{4} & 1 & 0 \\
+		(e,a) & e & a & \textbf{4} & 3 & 3 & 1 & 4 & 1 & 0 \\
+		(a,b) & a & b & 4 & \textbf{4} & 3 & 1 & 4 & 1 & 0 \\
+		(b,a) & b & a & \textbf{5} & 4 & 3 & 1 & 4 & 1 & 0 \\
+		(a,b) & a & b & 5 & \textbf{5} & 3 & 1 & 4 & 1 & 0 \\
+		(b,e) & b & e & 5 & 5 & 3 & 1 & \textbf{6} & 1 & 0 \\
+		(e,a) & e & a & \textbf{6} & 5 & 3 & 1 & 6 & 1 & 0 \\
+		(a,b) & a & b & 6 & \textbf{6} & 3 & 1 & 6 & 1 & 0 \\
+		(b,c) & b & c & 6 & 6 & \textbf{4} & 1 & 6 & 1 & 0 \\
+		(c,d) & c & d & 6 & 6 & 4 & 1 & 6 & 1 & 0 \\
+		(d,g) & d & g & 6 & 6 & 4 & 1 & 6 & 1 & 0 \\
+		\hline
+	\end{tabular} \\
+\end{table}
+\newpage
+\subsection*{c} %A* with LRTA*-Heuristic
+
+\begin{table}[h]
+	\centering
+	\caption{Heuristic $H(n)$}
+	
+	\begin{tabular}{| l | l |}
+		\hline
+		n & $H(n)$ \\ \hline
+		a & 6 \\
+		b & 6 \\
+		c & 4 \\
+		d & 1 \\
+		e & 6 \\
+		f & 1 \\
+		g & 0 \\
+		\hline
+	\end{tabular}
 
 
+	\centering
+	\caption{Graph-search $A^*$ with heuristic $H(n)$}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\multicolumn{1}{|c|}{\textbf{\begin{tabular}[c]{@{}c@{}}explored nodes\\ (and their parents)\end{tabular}}} & \multicolumn{1}{c|}{\textbf{frontier f-Values}}                      & \multicolumn{1}{c|}{\textbf{best node}} \\ \hline
+		a                                                                                                           & b = 7, e = 7, f = 7                                                  & b                                       \\ \hline
+		a, b(a)                                                                                                     & e = 7, f = 7, c = 8                                                  & e                                       \\ \hline
+		a, b(a), e(a)                                                                                               & \begin{tabular}[c]{@{}l@{}}f = 7, c = 8, d = 8,\\ g = 8\end{tabular} & f                                       \\ \hline
+		a, b(a), e(a), f(a)                                                                                         & c = 8, d = 8, g = 8                                                  & c                                       \\ \hline
+		a, b(a), e(a), f(a), c(b)                                                                                   & d = 8, g = 8                                                         & d                                       \\ \hline
+		\begin{tabular}[c]{@{}l@{}}a, b(a), e(a), f(a), c(b),\\ d(c)\end{tabular}                                   & g = 8                                                                & g                                       \\ \hline
+		\begin{tabular}[c]{@{}l@{}}a, b(a), e(a), f(a), c(b),\\ d(c), g(d)\end{tabular}                             & -                                                                    & -                                       \\ \hline
+	\end{tabular}
+\end{table}
 
-
-
-
-
-
-
-
-
-
-
+\noindent Similar to the worse heuristic, it also took 6 steps to calculate the path from $a$ to $g$. \\ 
+The result is the same as the previous calculation $a \rightarrow b \rightarrow c \rightarrow d \rightarrow g$ with a length of 8.
 
 
 
