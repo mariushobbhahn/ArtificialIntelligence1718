@@ -300,11 +300,12 @@ public class Graph {
                 heuristic.replace(state, minDistance);
             }
 
+            distanceTravelled += (minDistance - heuristic.get(minKey));
+
             // Continue next loop with new state
             state = minKey;
 
             path.add(state);
-            distanceTravelled += minDistance;
             expanded.clear();
         }
 
@@ -329,7 +330,7 @@ public class Graph {
 
 
         /* PATHS
-            kiel -> essen - Distance: 1182.8365936769924
+            kiel -> essen - Distance: 467.0
                 kiel
                 hamburg
                 bremen
@@ -337,7 +338,7 @@ public class Graph {
                 muenster
                 essen
 
-            aachen -> frankfurt/oder - Distance: 3361.137987290094
+            aachen -> frankfurt/oder - Distance: 780.0
                 aachen
                 koeln
                 essen
@@ -348,7 +349,7 @@ public class Graph {
                 berlin
                 frankfurt/oder
 
-            freiburg -> schwerin - Distance: 5101.817589192996
+            freiburg -> schwerin - Distance: 1471.0
                 freiburg
                 karlsruhe
                 mannheim
