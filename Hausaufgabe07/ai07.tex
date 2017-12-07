@@ -1,0 +1,121 @@
+\documentclass[a4paper]{article}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{listings} 
+\usepackage{tikz}
+\usepackage{pdflscape}
+\usetikzlibrary{trees}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{polynom}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{forloop}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage[]{algorithm2e}
+\usepackage{fancybox}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+
+\usepackage{algorithmic}
+\usetikzlibrary{automata,arrows}
+
+\usepackage{xparse}
+\input kvmacros
+
+%Größe der Ränder setzen
+\geometry{a4paper,left=3cm, right=3cm, top=3cm, bottom=3cm}
+
+%Kopf- und Fußzeile
+\pagestyle {fancy}
+\fancyhead[L]{}
+\fancyhead[C]{Artificial Intelligence}
+\fancyhead[R]{\today}
+
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{Seite \thepage /\pageref*{LastPage} }
+
+
+%Formatierung der Überschrift, hier nichts ändern
+\def\header#1#2{
+\begin{center}
+{\Large\bf Übungsblatt #1} %Blatt eintragen
+
+{(Abgabetermin #2)}
+\end{center}
+}
+
+%Definition der Punktetabelle, hier nichts ändern
+\newcounter{punktelistectr}
+\newcounter{punkte}
+\newcommand{\punkteliste}[2]{%
+  \setcounter{punkte}{#2}%
+  \addtocounter{punkte}{-#1}%
+  \stepcounter{punkte}%<-- also punkte = m-n+1 = Anzahl Spalten[1]
+  \begin{center}%
+  \begin{tabularx}{\linewidth}[]{@{}*{\thepunkte}{>{\centering\arraybackslash} X|}@{}>{\centering\arraybackslash}X}
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        \thepunktelistectr & 
+      } 
+      #2 &  $\Sigma$ \\
+      \hline
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        &
+      } &\\ 
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        &
+      } &\\ 
+    \end{tabularx}
+  \end{center}
+}
+
+
+
+\begin{document}
+
+%Hier bitte Student 1 usw ersetzen
+\begin{tabularx}{\linewidth}{m{0.2 \linewidth}X}
+\begin{minipage}{\linewidth}%
+%
+% ----------------------- TODO ---------------------------
+%Hier Namen eintragen
+%
+Marc Tomasek \\
+Marius Hobbhahn \\
+\end{minipage} & \begin{minipage}{\linewidth}%
+%
+% ----------------------- TODO ---------------------------
+%Die zweite Zahl durch die Anzahl der Aufgaben ersetzen
+%
+%
+\punkteliste{1}{3} %
+%
+\end{minipage}\\
+\end{tabularx}
+
+
+
+% ----------------------- TODO ---------------------------
+%
+%Hier Nummer und Datum aktualisieren
+\header{Nr. 7}{13.12.2017}
+%---------------------------------------------------------------------------
+\section*{Aufgabe 1} %Simulated Annealing
+\subsection*{a}
+Let without loss of generality name one heap $a$ and the other one $b$. \\
+
+
+\end{document}
