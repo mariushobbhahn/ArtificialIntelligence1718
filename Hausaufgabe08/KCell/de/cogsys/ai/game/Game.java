@@ -80,7 +80,7 @@ public abstract class Game<M,S> {
 
 		while (!g.ends()) {
 	        System.out.println("P" + (g.getCurrentPlayer() + 1) + ": " + g.computeStringRepresentation());
-		    
+
 			M move;
 			if (g.getCurrentPlayer() == Game.PLAYER1) {
 				move = player1.computeMove(g);
@@ -89,14 +89,14 @@ public abstract class Game<M,S> {
 			}
 			
 			if (!g.isValidMove(move)) {
-				throw new RuntimeException("Invalid move");
+				throw new RuntimeException("Invalid move " + move + " " + g.computeStringRepresentation());
 			}
 
 			g = g.performMove(move);
+            //System.out.println("\t" + g.computeStringRepresentation());
 		}
 
 		System.out.println();
-		System.out.println(g.computeStringRepresentation());
 		
 		if (g.wins(Game.PLAYER1)) {
 		    System.out.println("Player1 wins.");
