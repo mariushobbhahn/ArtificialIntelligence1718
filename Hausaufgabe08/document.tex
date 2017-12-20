@@ -1,0 +1,160 @@
+\documentclass[a4paper]{article}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{listings} 
+\usepackage{tikz}
+\usepackage{pdflscape}
+\usetikzlibrary{trees}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{polynom}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{forloop}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage[]{algorithm2e}
+\usepackage{fancybox}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+
+\usepackage{algorithmic}
+\usetikzlibrary{automata,arrows}
+
+\usepackage{xparse}
+\input kvmacros
+
+%Größe der Ränder setzen
+\geometry{a4paper,left=3cm, right=3cm, top=3cm, bottom=3cm}
+
+%Kopf- und Fußzeile
+\pagestyle {fancy}
+\fancyhead[L]{}
+\fancyhead[C]{Artificial Intelligence}
+\fancyhead[R]{\today}
+
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{Seite \thepage /\pageref*{LastPage} }
+
+
+%Formatierung der Überschrift, hier nichts ändern
+\def\header#1#2{
+\begin{center}
+{\Large\bf Übungsblatt #1} %Blatt eintragen
+
+{(Abgabetermin #2)}
+\end{center}
+}
+
+%Definition der Punktetabelle, hier nichts ändern
+\newcounter{punktelistectr}
+\newcounter{punkte}
+\newcommand{\punkteliste}[2]{%
+  \setcounter{punkte}{#2}%
+  \addtocounter{punkte}{-#1}%
+  \stepcounter{punkte}%<-- also punkte = m-n+1 = Anzahl Spalten[1]
+  \begin{center}%
+  \begin{tabularx}{\linewidth}[]{@{}*{\thepunkte}{>{\centering\arraybackslash} X|}@{}>{\centering\arraybackslash}X}
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        \thepunktelistectr & 
+      } 
+      #2 &  $\Sigma$ \\
+      \hline
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        &
+      } &\\ 
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        &
+      } &\\ 
+    \end{tabularx}
+  \end{center}
+}
+
+
+
+\begin{document}
+
+%Hier bitte Student 1 usw ersetzen
+\begin{tabularx}{\linewidth}{m{0.2 \linewidth}X}
+\begin{minipage}{\linewidth}%
+%
+% ----------------------- TODO ---------------------------
+%Hier Namen eintragen
+%
+Marc Tomasek \\
+Marius Hobbhahn \\
+\end{minipage} & \begin{minipage}{\linewidth}%
+%
+% ----------------------- TODO ---------------------------
+%Die zweite Zahl durch die Anzahl der Aufgaben ersetzen
+%
+%
+\punkteliste{1}{1} %
+%
+\end{minipage}\\
+\end{tabularx}
+
+
+
+% ----------------------- TODO ---------------------------
+%
+%Hier Nummer und Datum aktualisieren
+\header{Nr. 8}{20.12.2017}
+%---------------------------------------------------------------------------
+\section*{Aufgabe 1} %KCell
+\subsection*{b} %Size-Stone-Tabellen
+\begin{table}[h]
+	\centering
+	\caption{$\alpha\beta$-pruning times on top, Minimax-times below}
+	\begin{tabular}{|c|r|r|r|r|r|}
+		\hline
+		\textbf{Stones \textbackslash Size} & \multicolumn{1}{c|}{\textbf{9}}                      & \multicolumn{1}{c|}{\textbf{10}}                     & \multicolumn{1}{c|}{\textbf{11}}                  & \multicolumn{1}{c|}{\textbf{12}}                    & \multicolumn{1}{c|}{\textbf{13}}                  \\ \hline
+		\textbf{2}                          & \begin{tabular}[c]{@{}r@{}}38ms\\ 97ms\end{tabular}  & \begin{tabular}[c]{@{}r@{}}67ms\\ 444ms\end{tabular} & \begin{tabular}[c]{@{}r@{}}248ms\\ -\end{tabular} & \begin{tabular}[c]{@{}r@{}}444ms\\ -\end{tabular}   & \begin{tabular}[c]{@{}r@{}}-\\ -\end{tabular}     \\ \hline
+		\textbf{3}                          & \begin{tabular}[c]{@{}r@{}}35ms\\ 108ms\end{tabular} & \begin{tabular}[c]{@{}r@{}}387ms\\ -\end{tabular}    & \begin{tabular}[c]{@{}r@{}}-\\ -\end{tabular}     & \begin{tabular}[c]{@{}r@{}}-\\ -\end{tabular}       & \begin{tabular}[c]{@{}r@{}}-\\ -\end{tabular}     \\ \hline
+		\textbf{4}                          & \begin{tabular}[c]{@{}r@{}}3ms\\ 2ms\end{tabular}    & \begin{tabular}[c]{@{}r@{}}8ms\\ 10ms\end{tabular}   & \begin{tabular}[c]{@{}r@{}}209ms\\ -\end{tabular} & \begin{tabular}[c]{@{}r@{}}-\\ -\end{tabular}       & \begin{tabular}[c]{@{}r@{}}-\\ -\end{tabular}     \\ \hline
+		\textbf{5}                          &                                                      &                                                      & \begin{tabular}[c]{@{}r@{}}3ms\\ 3ms\end{tabular} & \begin{tabular}[c]{@{}r@{}}14ms\\ 22ms\end{tabular} & \begin{tabular}[c]{@{}r@{}}688ms\\ -\end{tabular} \\ \hline
+	\end{tabular}
+\end{table}\noindent
+Blank combinations are not possible. \\
+Combinations marked with - take above $1$s to find.
+
+
+\subsection*{c} %Size-Stone-Tabellen
+The heuristic is very simple: It returns the average distance of your stones to the other side of the board. In a game where our heuristic is player1, it usually pushes its stones forward together. \\ 
+Whereas if it is player2, it only pushes its first stone. It only moves the other stones if it has to. \\
+After 25 Games each as player1 and player2 we come to the following statistics:
+
+\begin{table}[h]
+	\centering
+	\caption{Heuristic is Player1}
+	\begin{tabular}{|r|c|c|c|}
+		\hline
+		\textbf{Depth} & \multicolumn{1}{l|}{\textbf{Win}} & \multicolumn{1}{l|}{\textbf{Draw}} & \multicolumn{1}{l|}{\textbf{Loss}} \\ \hline
+		\textbf{5}     & 9                                 & 11                                 & 5                                  \\ \hline
+		\textbf{10}    & 7                                 & 15                                 & 3                                  \\ \hline
+		\textbf{15}    & 8                                 & 13                                 & 4                                  \\ \hline
+	\end{tabular}
+	\caption{Heuristic is Player2}
+	\begin{tabular}{|r|c|c|c|}
+		\hline
+		\textbf{Depth} & \multicolumn{1}{l|}{\textbf{Win}} & \multicolumn{1}{l|}{\textbf{Draw}} & \multicolumn{1}{l|}{\textbf{Loss}} \\ \hline
+		\textbf{5}     & 16                                & 0                                  & 9                                  \\ \hline
+		\textbf{10}    & 11                                & 1                                  & 13                                 \\ \hline
+		\textbf{15}    & 14                                & 1                                  & 10                                 \\ \hline
+	\end{tabular}
+\end{table}
+
+
+\end{document}

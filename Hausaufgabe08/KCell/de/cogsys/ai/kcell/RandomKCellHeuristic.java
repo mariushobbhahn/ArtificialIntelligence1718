@@ -18,7 +18,7 @@ public class RandomKCellHeuristic implements AlphaBetaHeuristic<Integer,List<Int
 	
 	@Override	
 	public boolean cutoff(final Game<Integer,List<Integer>> game, final int depth) {
-	    return depth > 0;
+	    return depth == 0;
 	}
 	
 	@Override

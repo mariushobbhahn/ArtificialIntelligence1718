@@ -12,14 +12,12 @@ public class MiniMaxAgent<M,S> implements Agent<M,S> {
 
 	@Override
 	public M computeMove(final Game<M,S> game) {
-
 	    List<M> moves     = game.generateValidMoves();
 	    M      best       = null;
 	    double best_value = Double.NEGATIVE_INFINITY;
 
 	    for (M m : moves) {
 	        final double value = min_value(game.performMove(m));
-
 	        if (value > best_value) {
 	            best_value = value;
 	            best = m;
@@ -30,7 +28,7 @@ public class MiniMaxAgent<M,S> implements Agent<M,S> {
 	}
 	
 	
-	public double max_value(final Game<M,S> game) {
+	private double max_value(final Game<M,S> game) {
 	    if (game.ends()) {
 	    	return game.evaluate();
 	    }
@@ -51,7 +49,7 @@ public class MiniMaxAgent<M,S> implements Agent<M,S> {
         return v;
 	}
 	
-	public double min_value(final Game<M,S> game) {
+	private double min_value(final Game<M,S> game) {
 	    if (game.ends()) {
 	    	// we need to be sure to evaluate from the perspective of the MiniMax Agent
 	    	return -game.evaluate();            

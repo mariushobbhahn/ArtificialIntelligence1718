@@ -78,36 +78,37 @@ public abstract class Game<M,S> {
 	) {
 		Game<M,S> g = game;
 
-		while (!g.ends()) {
-	        System.out.println("P" + (g.getCurrentPlayer() + 1) + ": " + g.computeStringRepresentation());
+        while (!g.ends()) {
+            System.out.print("P" + (g.getCurrentPlayer() + 1) + ": " + g.computeStringRepresentation());
 
-			M move;
-			if (g.getCurrentPlayer() == Game.PLAYER1) {
-				move = player1.computeMove(g);
-			} else {
-				move = player2.computeMove(g);
-			}
-			
-			if (!g.isValidMove(move)) {
-				throw new RuntimeException("Invalid move " + move + " " + g.computeStringRepresentation());
-			}
+            M move;
+            if (g.getCurrentPlayer() == Game.PLAYER1) {
+                move = player1.computeMove(g);
+            } else {
+                move = player2.computeMove(g);
+            }
 
-			g = g.performMove(move);
-            //System.out.println("\t" + g.computeStringRepresentation());
-		}
+            System.out.println();
 
-		System.out.println();
-		
-		if (g.wins(Game.PLAYER1)) {
-		    System.out.println("Player1 wins.");
-		    return Game.PLAYER1; 
-		} else if (g.wins(Game.PLAYER2)) {
-		    System.out.println("Player2 wins.");
-		    return Game.PLAYER2; 
-	    } else {
-	        System.out.println("Draw.");
-	        return DRAW;
-	    }
+            if (!g.isValidMove(move)) {
+                throw new RuntimeException("Invalid move: " + move + " at state " + g.computeStringRepresentation());
+            }
+
+            g = g.performMove(move);
+        }
+
+        System.out.println();
+
+        if (g.wins(Game.PLAYER1)) {
+            System.out.println("Player1 wins.");
+            return Game.PLAYER1;
+        } else if (g.wins(Game.PLAYER2)) {
+            System.out.println("Player2 wins.");
+            return Game.PLAYER2;
+        } else {
+            System.out.println("Draw.");
+            return DRAW;
+        }
 	}
 	
 }

@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import de.cogsys.ai.game.Agent;
 import de.cogsys.ai.game.Game;
 import de.cogsys.ai.game.MiniMaxAgent;
+import de.cogsys.ai.game.AlphaBetaAgent;
+
 
 public class KCell extends Game<Integer,List<Integer>> {
 
@@ -18,31 +20,43 @@ public class KCell extends Game<Integer,List<Integer>> {
 
 	public static void main(final String[] args) {
 
-		// TODO: (a) Run the game with 2 human/MiniMax players and 7 cells with 2 Stones
-		final Agent<Integer,List<Integer>> player1 = new KCellHumanPlayer();
-		//final Agent<Integer,List<Integer>> player1 = new MiniMaxAgent<Integer, List<Integer>>();
-        //final Agent<Integer,List<Integer>> player2 = new KCellHumanPlayer();
-		final Agent<Integer,List<Integer>> player2 = new MiniMaxAgent<Integer, List<Integer>>();
+		// (a) Run the game with 2 MiniMax players and 7 cells with 2 Stones
 
+		/*
+		final Agent<Integer,List<Integer>> player1 = new MiniMaxAgent<>();
+        final Agent<Integer,List<Integer>> player2 = new MiniMaxAgent<>();
+        System.out.println("P1 Minimax  -  P2 Minimax:");
 
-		// TODO: (b) Run the game without heuristic and 7 cells with 2 Stones
-		//AlphaBetaAgent<Integer,List<Integer>> player1 = new AlphaBetaAgent<Integer,List<Integer>>();
-		//AlphaBetaAgent<Integer,List<Integer>> player2 = new AlphaBetaAgent<Integer,List<Integer>>();
+        Game.play(
+                new KCell(7, 2),
+                player1,
+                player2);
+        */
 
-		// TODO: (c) Run the game with heuristics and 15 cells with 3 Stones
-		//AlphaBetaAgent<Integer,List<Integer>> player1 = new AlphaBetaAgent<Integer,List<Integer>>(new KCellHeuristic());
-		//AlphaBetaAgent<Integer,List<Integer>> player2 = new AlphaBetaAgent<Integer,List<Integer>>(new RandomKCellHeuristic());
+		// (b) Run the game without heuristic and 7 cells with 2 Stones
+        /*
+		final AlphaBetaAgent<Integer,List<Integer>> player1 = new AlphaBetaAgent<>();
+		final AlphaBetaAgent<Integer,List<Integer>> player2 = new AlphaBetaAgent<>();
+        System.out.println("P1 Alpha Beta  -  P2 Alpha Beta:");
 
-		Game.play(
-			new KCell(7, 4),
-			player1,
-            player2
-		);
+        Game.play(
+                new KCell(7, 2),
+                player1,
+                player2);
+        */
+
+		// (c) Run the game with heuristics and 15 cells with 3 Stones
+        /*
+        AlphaBetaAgent<Integer,List<Integer>> player1 = new AlphaBetaAgent<>(new KCellHeuristic());
+		AlphaBetaAgent<Integer,List<Integer>> player2 = new AlphaBetaAgent<>(new RandomKCellHeuristic());
+		System.out.println("P1 Heuristic  -  P2 Random:");
+
+        Game.play(
+                new KCell(15, 3),
+                player1,
+                player2);
+        */
 	}
-
-    public static void print(String s) {
-        System.out.println(s);
-    }
 
 	/**
 	 * Constructor
@@ -53,7 +67,7 @@ public class KCell extends Game<Integer,List<Integer>> {
 
         boardSize = size;
 	    gameState = new ArrayList<>(size);
-	    stonesPerPlayer = stones / 2;
+	    stonesPerPlayer = stones;
 
 	    // Player1 stones
         for (int i = 0; i < stonesPerPlayer; i++) {
@@ -111,6 +125,10 @@ public class KCell extends Game<Integer,List<Integer>> {
         }
         return 0;
 	}
+
+	public int getBoardSize() {
+	    return boardSize;
+    }
 
 	private void switchPlayer() {
 	    currentPlayer = getOtherPlayer();
@@ -271,7 +289,7 @@ public class KCell extends Game<Integer,List<Integer>> {
      * @param move the position to be moved
      * @return boolean
      */
-    private boolean isCorrectPlayer(final int move, final int player) {
+    public boolean isCorrectPlayer(final int move, final int player) {
         return (gameState.get(move) == player);
     }
 
