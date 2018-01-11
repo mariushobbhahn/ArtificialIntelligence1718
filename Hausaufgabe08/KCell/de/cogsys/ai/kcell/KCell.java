@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 import de.cogsys.ai.game.Agent;
 import de.cogsys.ai.game.Game;
+import de.cogsys.ai.game.MiniMaxAgent;
+import de.cogsys.ai.game.AlphaBetaAgent;
+
 
 public class KCell extends Game<Integer,List<Integer>> {
 
@@ -17,28 +20,43 @@ public class KCell extends Game<Integer,List<Integer>> {
 
 	public static void main(final String[] args) {
 
-		// TODO: (a) Run the game with 2 human/MiniMax players and 7 cells with 2 Stones
-		final Agent<Integer,List<Integer>> player1 = new KCellHumanPlayer();
-		//final Agent<Integer,List<Integer>> player1 = new MiniMaxAgent<Integer,List<Integer>>();
-        final Agent<Integer,List<Integer>> player2 = new KCellHumanPlayer();
-		//final Agent<Integer,List<Integer>> player2 = new MiniMaxAgent<Integer,List<Integer>>();
+		// (a) Run the game with 2 MiniMax players and 7 cells with 2 Stones
 
+		/*
+		final Agent<Integer,List<Integer>> player1 = new MiniMaxAgent<>();
+        final Agent<Integer,List<Integer>> player2 = new MiniMaxAgent<>();
+        System.out.println("P1 Minimax  -  P2 Minimax:");
 
-		// TODO: (b) Run the game without heuristic and 7 cells with 2 Stones
-		//AlphaBetaAgent<Integer,List<Integer>> player1 = new AlphaBetaAgent<Integer,List<Integer>>();
-		//AlphaBetaAgent<Integer,List<Integer>> player2 = new AlphaBetaAgent<Integer,List<Integer>>();
+        Game.play(
+                new KCell(7, 2),
+                player1,
+                player2);
+        */
 
-		// TODO: (c) Run the game with heuristics and 15 cells with 3 Stones
-		//AlphaBetaAgent<Integer,List<Integer>> player1 = new AlphaBetaAgent<Integer,List<Integer>>(new KCellHeuristic());
-		//AlphaBetaAgent<Integer,List<Integer>> player2 = new AlphaBetaAgent<Integer,List<Integer>>(new RandomKCellHeuristic());
+		// (b) Run the game without heuristic and 7 cells with 2 Stones
+        /*
+		final AlphaBetaAgent<Integer,List<Integer>> player1 = new AlphaBetaAgent<>();
+		final AlphaBetaAgent<Integer,List<Integer>> player2 = new AlphaBetaAgent<>();
+        System.out.println("P1 Alpha Beta  -  P2 Alpha Beta:");
 
-		Game.play(
-			new KCell(7, 4),
-			player1,
-            player2
-		);
+        Game.play(
+                new KCell(7, 2),
+                player1,
+                player2);
+        */
+
+		// (c) Run the game with heuristics and 15 cells with 3 Stones
+        /*
+        AlphaBetaAgent<Integer,List<Integer>> player1 = new AlphaBetaAgent<>(new KCellHeuristic());
+		AlphaBetaAgent<Integer,List<Integer>> player2 = new AlphaBetaAgent<>(new RandomKCellHeuristic());
+		System.out.println("P1 Heuristic  -  P2 Random:");
+
+        Game.play(
+                new KCell(15, 3),
+                player1,
+                player2);
+        */
 	}
-
 
 	/**
 	 * Constructor
@@ -49,7 +67,7 @@ public class KCell extends Game<Integer,List<Integer>> {
 
         boardSize = size;
 	    gameState = new ArrayList<>(size);
-	    stonesPerPlayer = stones / 2;
+	    stonesPerPlayer = stones;
 
 	    // Player1 stones
         for (int i = 0; i < stonesPerPlayer; i++) {
@@ -73,7 +91,8 @@ public class KCell extends Game<Integer,List<Integer>> {
      * @param stonesPP #stones
      */
 	public KCell (List<Integer> state, int player, int stonesPP) {
-	    gameState = state;
+	    gameState = new ArrayList<>();
+	    gameState.addAll(state);
 	    currentPlayer = player;
 	    stonesPerPlayer = stonesPP;
 	    boardSize = state.size();
@@ -106,6 +125,10 @@ public class KCell extends Game<Integer,List<Integer>> {
         }
         return 0;
 	}
+
+	public int getBoardSize() {
+	    return boardSize;
+    }
 
 	private void switchPlayer() {
 	    currentPlayer = getOtherPlayer();
@@ -173,13 +196,14 @@ public class KCell extends Game<Integer,List<Integer>> {
         return false;
     }
 
+
 	@Override
 	public boolean wins(final int player) {
         // Always check
 	    if (winByAllStones(player))
 	        return winByAllStones(player);
         // Only check if no more moves possible
-        return (noMoreValidMoves()) && winByNoMoves(player);
+        return (isDraw()) && winByNoMoves(player);
 	}
 
 
@@ -187,10 +211,10 @@ public class KCell extends Game<Integer,List<Integer>> {
      * Returns if BOTH players have no valid move, but the Empty move left
      * @return boolean
      */
-	private boolean noMoreValidMoves() {
-        boolean res = generateValidMoves().isEmpty();
+	private boolean isDraw() {
+        boolean res = !isAnythingMovable(currentPlayer);
         switchPlayer();
-        res = res && generateValidMoves().isEmpty();
+        res = res && !isAnythingMovable(currentPlayer);
         switchPlayer();
         return res;
     }
@@ -198,7 +222,7 @@ public class KCell extends Game<Integer,List<Integer>> {
 
 	@Override
 	public boolean ends() {
-	    return wins(PLAYER1) || wins(PLAYER2) || noMoreValidMoves();
+	    return wins(PLAYER1) || wins(PLAYER2) || isDraw();
 	}
 
 
@@ -210,6 +234,7 @@ public class KCell extends Game<Integer,List<Integer>> {
 	private boolean isNextFree(final int move, final int player) {
 	    int right = move + 1;
 	    int left = move - 1;
+
         switch (player) {
             case PLAYER1:
                 if (right < boardSize)
@@ -264,33 +289,71 @@ public class KCell extends Game<Integer,List<Integer>> {
      * @param move the position to be moved
      * @return boolean
      */
-    private boolean isCorrectPlayer(final int move, final int player) {
+    public boolean isCorrectPlayer(final int move, final int player) {
         return (gameState.get(move) == player);
+    }
+
+
+    private boolean isAnythingMovable (final int player) {
+        for (int i = 0; i < boardSize; i++) {
+            if (isCorrectPlayer(i, player) && isMovable(i, player))
+                return true;
+        }
+        return false;
     }
 
 
 	@Override
 	public boolean isValidMove(final Integer move) {
-        boolean res = move >= 0 && move < boardSize;
+        if (!isAnythingMovable(currentPlayer) && move == EMPTY)
+            return true;
+        else {
+            if (move >= 0 && move < boardSize)
+                return isCorrectPlayer(move, currentPlayer) && isMovable(move, currentPlayer);
+        }
+        return false;
+
+
+        /*boolean res = move >= 0 && move < boardSize;
 
         // not-Empty move
         if (res)
             return isCorrectPlayer(move, currentPlayer) && isMovable(move, currentPlayer);
 
-        // Empty move only allowed
-        return (move == EMPTY) && generateValidMoves().isEmpty() && !noMoreValidMoves();
+        // Empty move only allowed if no other moves possible
+        return (generateValidMoves().size() == 1 && (move == EMPTY));*/
     }
+
 
 
 	@Override
 	public List<Integer> generateValidMoves() {
 	    ArrayList<Integer> validMoves = new ArrayList<>(stonesPerPlayer);
 
+	    if (isAnythingMovable(currentPlayer)) {
+            for(int i = 0; i < boardSize; i++) {
+                if (isValidMove(i))
+                    validMoves.add(i);
+            }
+        } else
+            validMoves.add(EMPTY);
+
+	    return validMoves;
+
+	    /*
+	    ArrayList<Integer> validMoves = new ArrayList<>(stonesPerPlayer);
+	    validMoves.add(EMPTY);
 	    for (int i = 0; i < boardSize; i++) {
 	        if (isValidMove(i))
 	            validMoves.add(i);
         }
-		return validMoves;
+
+        for (Integer m: validMoves
+             ) {
+            print(m.toString());
+        }
+
+		return validMoves;*/
 	}
 
 
@@ -328,7 +391,8 @@ public class KCell extends Game<Integer,List<Integer>> {
                 case PLAYER1: target++; break;
                 case PLAYER2: target--; break;
             }
-            moveStone(copy.gameState, move, target);
+            if (gameState.get(target) == EMPTY)
+                moveStone(copy.gameState, move, target);
             return copy;
         }
 
@@ -338,9 +402,9 @@ public class KCell extends Game<Integer,List<Integer>> {
                 case PLAYER1: target += 2; break;
                 case PLAYER2: target -= 2; break;
             }
-            assert (gameState.get(target) == EMPTY);
-            moveStone(copy.gameState, move, target);
         }
+        if (gameState.get(target) == EMPTY)
+            moveStone(copy.gameState, move, target);
 
         return copy;
 	}

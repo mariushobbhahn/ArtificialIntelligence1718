@@ -1,5 +1,7 @@
 package de.cogsys.ai.game;
 
+import de.cogsys.ai.kcell.KCell;
+
 import java.util.List;
 
 
@@ -26,12 +28,16 @@ public class MiniMaxAgent<M,S> implements Agent<M,S> {
 	}
 	
 	
-	public double max_value(final Game<M,S> game) {
+	private double max_value(final Game<M,S> game) {
 	    if (game.ends()) {
-	    	return game.evaluate();            
+	    	return game.evaluate();
 	    }
 	    double v = Double.NEGATIVE_INFINITY;
         List<M> moves = game.generateValidMoves();
+
+        /*System.out.print("MAX\t");
+        System.out.print(game.computeStringRepresentation());
+        System.out.println("\tmoves" + moves);*/
 
         for (M m : moves) {
             final double value = min_value(game.performMove(m));
@@ -39,11 +45,11 @@ public class MiniMaxAgent<M,S> implements Agent<M,S> {
                 v = value;
             }
         }
+
         return v;
-    
 	}
 	
-	public double min_value(final Game<M,S> game) {
+	private double min_value(final Game<M,S> game) {
 	    if (game.ends()) {
 	    	// we need to be sure to evaluate from the perspective of the MiniMax Agent
 	    	return -game.evaluate();            
@@ -51,15 +57,17 @@ public class MiniMaxAgent<M,S> implements Agent<M,S> {
 	    double v = Double.POSITIVE_INFINITY;
         List<M> moves = game.generateValidMoves();
 
+        /*System.out.print("MIN\t");
+        System.out.print(game.computeStringRepresentation());
+        System.out.println("\tmoves" + moves);*/
+
         for (M m : moves) {
             final double value = max_value(game.performMove(m));
             if (value < v) {
                 v = value;
             }
         }
+
 	    return v;
 	}
-	
-	
-	
 }

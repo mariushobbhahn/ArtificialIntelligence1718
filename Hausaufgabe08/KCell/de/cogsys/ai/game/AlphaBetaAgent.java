@@ -3,7 +3,6 @@ package de.cogsys.ai.game;
 import java.util.List;
 
 
-
 public class AlphaBetaAgent<M,S> implements Agent<M,S> {
 
 	private AlphaBetaHeuristic<M,S> heuristic;
@@ -13,41 +12,68 @@ public class AlphaBetaAgent<M,S> implements Agent<M,S> {
 	}
 
 	public AlphaBetaAgent() {
-		this(null);
+        this(null);
 	}
 	
 	@Override
-	public M computeMove(final Game<M,S> game) {		
-		// TODO: Implement minimax search with alpha-beta-pruning here
-		//       Below you can see an example how to use the game class.
-		//       Instead of returning the first possible move you have to implement
-		//       the algorithm!
-		//
-		//       Please check whether there is a valid heuristic given. In the
-		//       case this.heuristic is null, then there is no heuristic, i.e., no
-		//       cut-off test.
-		//
-		//       You can also look at the provided MiniMax implementation to get the 
-		//       basic structure of the algorithm
-		//
-		
-		//
-		// list possible moves.
-		//
-		final List<M> moves = game.generateValidMoves();
-	    
-		//
-		// Performs the ith move and switches the player.
-		//
-		// Game<M> newgame = game.performMove(moves.get(i);
-		//
-		// ...
-		//
-	    
+    public M computeMove(final Game<M,S> game) {
+	    int DEPTH = 15;
+        List<M> moves       = game.generateValidMoves();
+        M       best        = null;
+        double  best_value  = Double.NEGATIVE_INFINITY;
 
-	    
-	    
-	    return moves.get(0);
-	}
-	
+        for (M m : moves) {
+            double value = min(game, Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY, DEPTH-1);
+            if (value > best_value){
+                best = m;
+                best_value = value;
+            }
+        }
+
+        return best;
+    }
+
+
+    private double max(Game<M,S> game, double alpha, double beta, int depth) {
+	    if (heuristic == null) {
+	        if (game.ends()){
+                return game.evaluate();
+            }
+        } else {
+            if (heuristic.cutoff(game, depth))
+                return heuristic.eval(game);
+	    }
+        double value = Double.NEGATIVE_INFINITY;
+        List<M> moves = game.generateValidMoves();
+
+        for (M m: moves) {
+            value = Math.max(value, min(game.performMove(m), alpha, beta, depth-1));
+            alpha = Math.max(alpha, value);
+            if (beta <= alpha)
+                break; // beta cut-off
+        }
+        return value;
+    }
+
+    private double min(Game<M,S> game, double alpha, double beta, int depth) {
+        if (heuristic == null) {
+            if (game.ends()){
+                return game.evaluate();
+            }
+        } else {
+            if (heuristic.cutoff(game, depth))
+                return heuristic.eval(game);
+        }
+        double value = Double.POSITIVE_INFINITY;
+        List<M> moves = game.generateValidMoves();
+
+        for (M m: moves) {
+            value = Math.min(value, max(game.performMove(m), alpha, beta, depth-1));
+            beta = Math.min(beta, value);
+            if (beta <= alpha)
+                break; // alpha cut-off
+        }
+        return value;
+    }
+
 }
