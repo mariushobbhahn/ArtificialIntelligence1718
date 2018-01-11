@@ -1,0 +1,155 @@
+\documentclass[a4paper]{article}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{listings} 
+\usepackage{tikz}
+\usepackage{pdflscape}
+\usetikzlibrary{trees}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{polynom}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{forloop}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage[]{algorithm2e}
+\usepackage{fancybox}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+
+\usepackage{algorithmic}
+\usetikzlibrary{automata,arrows}
+
+\usepackage{xparse}
+\input kvmacros
+
+%Größe der Ränder setzen
+\geometry{a4paper,left=3cm, right=3cm, top=3cm, bottom=3cm}
+
+%Kopf- und Fußzeile
+\pagestyle {fancy}
+\fancyhead[L]{}
+\fancyhead[C]{Artificial Intelligence}
+\fancyhead[R]{\today}
+
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{Seite \thepage /\pageref*{LastPage} }
+
+
+%Formatierung der Überschrift, hier nichts ändern
+\def\header#1#2{
+\begin{center}
+{\Large\bf Übungsblatt #1} %Blatt eintragen
+
+{(Abgabetermin #2)}
+\end{center}
+}
+
+%Definition der Punktetabelle, hier nichts ändern
+\newcounter{punktelistectr}
+\newcounter{punkte}
+\newcommand{\punkteliste}[2]{%
+  \setcounter{punkte}{#2}%
+  \addtocounter{punkte}{-#1}%
+  \stepcounter{punkte}%<-- also punkte = m-n+1 = Anzahl Spalten[1]
+  \begin{center}%
+  \begin{tabularx}{\linewidth}[]{@{}*{\thepunkte}{>{\centering\arraybackslash} X|}@{}>{\centering\arraybackslash}X}
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        \thepunktelistectr & 
+      } 
+      #2 &  $\Sigma$ \\
+      \hline
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        &
+      } &\\ 
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        &
+      } &\\ 
+    \end{tabularx}
+  \end{center}
+}
+
+
+
+\begin{document}
+
+%Hier bitte Student 1 usw ersetzen
+\begin{tabularx}{\linewidth}{m{0.2 \linewidth}X}
+\begin{minipage}{\linewidth}%
+%
+% ----------------------- TODO ---------------------------
+%Hier Namen eintragen
+%
+Marc Tomasek \\
+Marius Hobbhahn \\
+\end{minipage} & \begin{minipage}{\linewidth}%
+%
+% ----------------------- TODO ---------------------------
+%Die zweite Zahl durch die Anzahl der Aufgaben ersetzen
+%
+%
+\punkteliste{1}{3} %
+%
+\end{minipage}\\
+\end{tabularx}
+
+
+
+% ----------------------- TODO ---------------------------
+%
+%Hier Nummer und Datum aktualisieren
+\header{Nr. 8}{20.12.2017}
+%---------------------------------------------------------------------------
+
+\section{CSP}
+	\subsection*{a)}
+	\begin{tabular}{l | l || l | l | l | l | l | l | l | l | l }
+		line & assignment & A & B & C & D & E & F & G & H & I  \\ \hline
+		0& init & rgb & rgb & rgb & rgb & rgb & rgb & rgb & rgb & rgb \\ \hline
+		1 & A $\leftarrow$ r & r  & rgb & gb & rgb & rgb & rgb & rgb & rgb & rgb  \\ \hline
+		2 & B $\leftarrow$ r & r & r & gb & gb & rgb  & rgb & rgb & rgb & rgb  \\ \hline
+		3 & C $\leftarrow$ g & r & r & g & b & rgb & rb & rgb & rgb & rb \\ \hline
+		4 & D $\leftarrow$ b & r & r & g & b & rg & rb & rg & rg & rb \\ \hline
+		5 & E $\leftarrow$ r & r & r & g & b & r & rb & g & rg & rb \\ \hline
+		6 & F $\leftarrow$ r & r & r & g & b & r & r & g & g & b  \\ \hline
+		7 & G $\leftarrow$ g & r & r & g & b & r & r & g & \underline{g}* & b \\ \hline
+		8 & F $\leftarrow$ b & r & r & g & b & r & b & g & r & r\\ \hline
+		9 & G $\leftarrow$ g & r & r & g & b & r & b & g & r & r \\ \hline
+		10 & H $\leftarrow$ r & r & r & g & b & r & b & g & r & \underline{r}** \\ \hline
+		11 & E $\leftarrow$ g & r & r & g & b & g & rb & r & rg & rb \\ \hline
+		12 & F $\leftarrow$ r & r & r & g & b & g & r & r & g & b \\ \hline
+		13 & G $\leftarrow$ r & r & r & g & b & g & r & r & g & b \\ \hline
+		14 & H $\leftarrow$ g & r & r & g & b & g & r & r & g & b \\ \hline
+		15 & I $\leftarrow$ b & r & r & g & b & g & r & r & g & b \\ \hline
+	\end{tabular}\\ \\
+	* backtracks to line 5 before r was assigned to F and now assigns the other option b.\\
+	** backtracks to line 4 before r was assigned to E and now assigns the other option g.\\
+	This final coloring of the graph is consistent with our constraints.
+	\subsection*{b)}
+	\begin{tabular}{l | l || l | l | l | l | l | l | l | l | l }
+		line & assignment & A & B & C & D & E & F & G & H & I  \\ \hline
+		0 & init & rgb & rgb & rgb & rgb & rgb & rgb & rgb & rgb & rgb \\ \hline
+		1 & A $\leftarrow$ r & r  & rgb & gb & rgb & rgb & rgb & rgb & rgb & rgb\\ \hline
+		2 & B $\leftarrow$ r & r & r & gb & gb & rgb & rgb & rgb & rgb & rgb\\ \hline
+		3 & C $\leftarrow$ g & r & r & g & b & rg & rb & rg & rg & rb \\ \hline
+		4 & E $\leftarrow$ r & r & r & g & b & r & b & g & r & \underline{b}* \\ \hline
+		5 & E $\leftarrow$ g & r & r & g & b & g & rb & r & g & rb \\  \hline
+		6 & F $\leftarrow$ r & r & r & g & b & g & r & r & g & b \\ \hline
+	\end{tabular}\\ \\
+	We do not assign D in the 4th row  but skip it since it is already tested for consistency and would therefore be redundant.\\
+	* in MAC we backtrack to the line before since we already know this leads to an inconsistent constellation. When we change E to g instead of r it works.	
+	We are able to spot the inconsistency way earlier in the second example saving us much time. Therefore MAC has an advantage here.
+\end{document}
