@@ -1,0 +1,177 @@
+\documentclass[a4paper]{article}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{listings} 
+\usepackage{tikz}
+\usepackage{pdflscape}
+\usetikzlibrary{trees}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{polynom}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{forloop}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage[]{algorithm2e}
+\usepackage{fancybox}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+
+\usepackage{algorithmic}
+\usetikzlibrary{automata,arrows}
+
+\usepackage{xparse}
+\input kvmacros
+
+%Größe der Ränder setzen
+\geometry{a4paper,left=3cm, right=3cm, top=3cm, bottom=3cm}
+
+%Kopf- und Fußzeile
+\pagestyle {fancy}
+\fancyhead[L]{}
+\fancyhead[C]{Artificial Intelligence}
+\fancyhead[R]{\today}
+
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{Seite \thepage /\pageref*{LastPage} }
+
+
+%Formatierung der Überschrift, hier nichts ändern
+\def\header#1#2{
+\begin{center}
+{\Large\bf Übungsblatt #1} %Blatt eintragen
+
+{(Abgabetermin #2)}
+\end{center}
+}
+
+%Definition der Punktetabelle, hier nichts ändern
+\newcounter{punktelistectr}
+\newcounter{punkte}
+\newcommand{\punkteliste}[2]{%
+  \setcounter{punkte}{#2}%
+  \addtocounter{punkte}{-#1}%
+  \stepcounter{punkte}%<-- also punkte = m-n+1 = Anzahl Spalten[1]
+  \begin{center}%
+  \begin{tabularx}{\linewidth}[]{@{}*{\thepunkte}{>{\centering\arraybackslash} X|}@{}>{\centering\arraybackslash}X}
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        \thepunktelistectr & 
+      } 
+      #2 &  $\Sigma$ \\
+      \hline
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        &
+      } &\\ 
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        &
+      } &\\ 
+    \end{tabularx}
+  \end{center}
+}
+
+
+
+\begin{document}
+
+%Hier bitte Student 1 usw ersetzen
+\begin{tabularx}{\linewidth}{m{0.2 \linewidth}X}
+\begin{minipage}{\linewidth}%
+%
+% ----------------------- TODO ---------------------------
+%Hier Namen eintragen
+%
+Marc Tomasek \\
+Marius Hobbhahn \\
+\end{minipage} & \begin{minipage}{\linewidth}%
+%
+% ----------------------- TODO ---------------------------
+%Die zweite Zahl durch die Anzahl der Aufgaben ersetzen
+%
+%
+\punkteliste{1}{3} %
+%
+\end{minipage}\\
+\end{tabularx}
+
+
+
+% ----------------------- TODO ---------------------------
+%
+%Hier Nummer und Datum aktualisieren
+\header{Nr. 8}{20.12.2017}
+%---------------------------------------------------------------------------
+
+\section{CSP: cartographic colouring}
+\subsection*{a)}
+\begin{center}
+	\begin{tikzpicture}[scale=0.2]
+	\tikzstyle{every node}+=[inner sep=0pt]
+	\draw [black] (21.8,-10.8) circle (3);
+	\draw (21.8,-10.8) node {$A$};
+	\draw [black] (42.6,-10.8) circle (3);
+	\draw (42.6,-10.8) node {$B$};
+	\draw [black] (42.6,-28.3) circle (3);
+	\draw (42.6,-28.3) node {$D$};
+	\draw [black] (21.4,-28.3) circle (3);
+	\draw (21.4,-28.3) node {$C$};
+	\draw [black] (39.6,-10.8) -- (24.8,-10.8);
+	\fill [black] (24.8,-10.8) -- (25.6,-11.3) -- (25.6,-10.3);
+	\draw [black] (21.73,-13.8) -- (21.47,-25.3);
+	\fill [black] (21.47,-25.3) -- (21.99,-24.51) -- (20.99,-24.49);
+	\draw [black] (24.4,-28.3) -- (39.6,-28.3);
+	\fill [black] (39.6,-28.3) -- (38.8,-27.8) -- (38.8,-28.8);
+	\draw [black] (42.6,-25.3) -- (42.6,-13.8);
+	\fill [black] (42.6,-13.8) -- (42.1,-14.6) -- (43.1,-14.6);
+	\draw [black] (40.29,-12.71) -- (23.71,-26.39);
+	\fill [black] (23.71,-26.39) -- (24.65,-26.27) -- (24.01,-25.5);
+	\draw [black] (24.1,-12.73) -- (40.3,-26.37);
+	\fill [black] (40.3,-26.37) -- (40.01,-25.47) -- (39.37,-26.24);
+	\end{tikzpicture}
+\end{center}
+\begin{tabular}{l || c | c | c | c }
+	assignment & A & B & C & D \\ \hline
+	init & rgb & rgb & rgb & rgb  \\
+	A $\leftarrow$ r & r & gb & gb & gb \\
+	B $\leftarrow$ g & r & g & b & b \\
+	C $\leftarrow$ b & r & g & b & * \\
+	B $\leftarrow$ b & r & b & g & g \\
+	C $\leftarrow$ g & r & b & g & ** \\
+	A $\leftarrow$ g & g & rb & rb & rb \\
+	B $\leftarrow$ r & g & r & b & b  \\
+	C $\leftarrow$ b & g & r & b & *** \\
+	B $\leftarrow$ b & g & b & r & r \\
+	C $\leftarrow$ r & g & b & r & **** \\
+	A $\leftarrow$ b & b & rg & rg & rg \\
+	B $\leftarrow$ r & b & r & g & g \\
+	C $\leftarrow$ g & b & r & g & ***** \\
+	B $\leftarrow$ g & b & g & r & r \\
+	C $\leftarrow$ r & b & g & r & ****** \\
+\end{tabular}\\ \\
+In situations with an odd number of stars, we track back to the previous assignment of b and switch that. In situations with an even number of stars we track back to the assignment of A and switch this. When having 6 stars we reached all possible assigments of A in combination with others and realized that there is no consistent assigment.
+
+\section{n-queens problem}
+
+\section{heuristics and consistency}
+\section*{a)}
+forward checking: It begins by assigning the first value of possible values for variables to the first node in the graph (assuming that an order is given) and propagates the logical results of that assignments to neighboring nodes to remove possible values of their set of values. If an inconsistency is found it is solved through backtracking. The main difference to MAC is that it only looks at neighboring nodes and not the whole graph at any given point in time\\
+Maintaining arc consistency (MAC): It begins by assigning the first value of possible values for variables to the first node in the graph (assuming that an order is given) then tests all constraints with neighboring nodes and removes possible values from their set of values until every arc in the graph fulfills the criterion of arc consistency. If an inconsistency is found it is solved through backtracking. The main difference to forward checking is that with MAC we check the whole graph for consistency not only the neighboring nodes of the current variable.
+\section*{b)}
+We choose the variable that is most constrained to remove as many constraints as possible from any further inquiry because that makes following solutions easier. \\
+We choose the value with least constraints so that we can fulfill as many constraints as possible and make following solutions easier.
+\section*{c)}
+A variable is arc consistent with another variable if there are admissible combinations of values between the two, meaning that there is at least one combination of admissible assigment for the second variable for each admissible assigment of variable 1. \\
+A variable is path consistent with a third variable if each admissible assignment for variable one can be extended to the third variable. That means every binary constraint on the path between variable one and three are fullfilled with admissible assignments.
+\end{document}
