@@ -123,13 +123,24 @@ The entailment connection: $\vDash$ is true if and only if $True \vDash True$
 	\begin{tabular}{c | c || c | c }
 		A & B & $A \Leftrightarrow B$ & $A \land \neg B$ \\ \hline
 		0 & 0 & 1 & 0 \\
-		0 & 1 & 0 & 1 \\
-		1 & 0 & 0 & 0 \\
+		0 & 1 & 0 & 0 \\
+		1 & 0 & 0 & 1 \\
 		1 & 1 & 1 & 0 
 	\end{tabular}\\
 	There are cases in which $A \Leftrightarrow B$ is true but $A\land \neg B$ is not. It is therefore not entailed.
 	\item[d)] Yes, since $(A \Rightarrow B) \equiv (\neg A \lor B)$, the entailment is therefore $True \vDash True$
-	\item[e)] Yes, since only one upper level term must be satisfiable since it is connected with disjunctions. $(A \Rightarrow B)$ is satisfiable, therefore the whole sentence is.
+	\item[e)] \begin{tabular}{c | c | c || c | c | c | c}
+		A & B & C & $(B \Rightarrow A) \lor C$ & $(B \Rightarrow C) \land A$ & $(A \Rightarrow C) \land C$ & $e$ \\ \hline
+		0 & 0 & 0 & 1 & 0 & 0 & 0\\
+		0 & 0 & 1 & 1 & 0 & 1 & 1\\
+		0 & 1 & 0 & 0 & 0 & 0 & 1\\
+		0 & 1 & 1 & 1 & 0 & 1 & 1\\
+		1 & 0 & 0 & 1 & 1 & 0 & 1\\
+		1 & 0 & 1 & 1 & 1 & 1 & 1\\
+		1 & 1 & 0 & 1 & 0 & 0 & 0\\
+		1 & 1 & 1 & 1 & 1 & 1 & 1\\
+	\end{tabular}\\
+	Is satisfiable for e.g. $A = B = C = True$
 	\item[f)] No, since there are cases in which $(\neg C \lor D \lor E)$ is true, but $(\neg D \lor \neg E)$ is false, i.e. $C = 0, D = 1, E = 1$. If now Both $A = 0$ and $B = 0$, then there is $True \vDash False$ which is wrong.
 	\item[g)] $(A\land B) \land\neg (A \Rightarrow B) \equiv (A\land B) \land\neg (\neg A \lor B) \equiv (A\land B) \land (A \land  \neg B) \equiv A \land B \land \neg B$. This is a contradiction, meaning it is not satisfiable for any given input.
 	\item[h)] \begin{tabular}{c | c | c || c | c }
@@ -157,7 +168,14 @@ The entailment connection: $\vDash$ is true if and only if $True \vDash True$
 		1 & 1 & 1 & 1 & 1 & 1 & 1\\
 	\end{tabular}\\
 	In every case in which the first term is true, the second is as well making this a true entailment.
-	\item[j)] $(A \Leftrightarrow B) \land (A \lor \neg B) \equiv (\neg A \land B) \land (\neg B \land A) \land (A \lor \neg B) \equiv (\neg A \land B) \land (\neg B \land A)$. The equivalence entails the following term. The sentence is therefore satisfiable for all cases in which the equivalence is, i.e. $A = 1, B = 1$.
+	\item[j)] \begin{tabular}{c | c || c | c | c }
+		A & B & $(A \Leftrightarrow B)$ & $A \lor \neg B$ & j \\ \hline
+		0 & 0 & 1 & 1 & 1 \\
+		0 & 1 & 0 & 0 & 0 \\
+		1 & 0 & 0 & 1 & 0 \\
+		1 & 1 & 1 & 1 & 1 \\
+	\end{tabular}\\
+	Is satisfiable for e.g. $A = B = True$
 \end{itemize}
 \section{Normal forms}
 \begin{itemize}
@@ -183,7 +201,7 @@ The entailment connection: $\vDash$ is true if and only if $True \vDash True$
 		\end{align*}
 	\item[d)]
 		\begin{align*}
-			\neg A \lor (C \land B) \Rightarrow B &\equiv \neg(\neg A \lor (C \land b)) \lor B \\
+			\neg A \lor (C \land B) \Rightarrow B &\equiv \neg(\neg A \lor (C \land B)) \lor B \\
 			&\equiv (A \land \neg(C \land B)) \lor B \\
 			&\equiv (A \land (\neg C \lor \neg B)) \lor B\\
 			&\equiv (B \lor A) \land (B \lor (\neg C \lor \neg B)) \\
