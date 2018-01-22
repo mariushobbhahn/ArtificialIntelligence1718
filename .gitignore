@@ -1,0 +1,5 @@
+# Ignore following filetypes
+*.synctex
+*.out
+*.log
+*.aux
