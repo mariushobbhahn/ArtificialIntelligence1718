@@ -1,0 +1,178 @@
+\documentclass[a4paper]{article}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{listings} 
+\usepackage{tikz}
+\usepackage{pdflscape}
+\usetikzlibrary{trees}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{polynom}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{forloop}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage[]{algorithm2e}
+\usepackage{fancybox}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+
+\usepackage{algorithmic}
+\usetikzlibrary{automata,arrows}
+
+\usepackage{xparse}
+\input kvmacros
+
+%Größe der Ränder setzen
+\geometry{a4paper,left=3cm, right=3cm, top=3cm, bottom=3cm}
+
+%Kopf- und Fußzeile
+\pagestyle {fancy}
+\fancyhead[L]{}
+\fancyhead[C]{Artificial Intelligence}
+\fancyhead[R]{\today}
+
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{Seite \thepage /\pageref*{LastPage} }
+
+
+%Formatierung der Überschrift, hier nichts ändern
+\def\header#1#2{
+\begin{center}
+{\Large\bf Übungsblatt #1} %Blatt eintragen
+
+{(Abgabetermin #2)}
+\end{center}
+}
+
+%Definition der Punktetabelle, hier nichts ändern
+\newcounter{punktelistectr}
+\newcounter{punkte}
+\newcommand{\punkteliste}[2]{%
+  \setcounter{punkte}{#2}%
+  \addtocounter{punkte}{-#1}%
+  \stepcounter{punkte}%<-- also punkte = m-n+1 = Anzahl Spalten[1]
+  \begin{center}%
+  \begin{tabularx}{\linewidth}[]{@{}*{\thepunkte}{>{\centering\arraybackslash} X|}@{}>{\centering\arraybackslash}X}
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        \thepunktelistectr & 
+      } 
+      #2 &  $\Sigma$ \\
+      \hline
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        &
+      } &\\ 
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        &
+      } &\\ 
+    \end{tabularx}
+  \end{center}
+}
+
+
+
+\begin{document}
+
+%Hier bitte Student 1 usw ersetzen
+\begin{tabularx}{\linewidth}{m{0.2 \linewidth}X}
+\begin{minipage}{\linewidth}%
+%
+% ----------------------- TODO ---------------------------
+%Hier Namen eintragen
+%
+Marc Tomasek \\
+Marius Hobbhahn \\
+\end{minipage} & \begin{minipage}{\linewidth}%
+%
+% ----------------------- TODO ---------------------------
+%Die zweite Zahl durch die Anzahl der Aufgaben ersetzen
+%
+%
+\punkteliste{1}{4} %
+%
+\end{minipage}\\
+\end{tabularx}
+
+
+
+% ----------------------- TODO ---------------------------
+%
+%Hier Nummer und Datum aktualisieren
+\header{Nr. 12}{31.01.2017}
+%---------------------------------------------------------------------------
+
+\section{Resolution}
+From the last assignment we know that there are 3 Variables: $Z,N,E$ and we have 5 statements that need to be fulfilled: $Z \lor N  \lor E, \neg Z \Rightarrow \neg N, E \Rightarrow N, E \Rightarrow \neg Z, Z  \Rightarrow (Z \land N) \lor (Z \land E)$\\
+These can be transformed to CNF such that:
+\begin{enumerate}
+	\item $Z \lor N \lor E$
+	\item $\neg Z \Rightarrow  \neg N \equiv Z \lor \neg N$
+	\item $E \Rightarrow N \equiv \neg E \lor N$
+	\item $E \Rightarrow \neg Z \equiv \neg E \lor \neg Z$
+	\item $Z \Rightarrow (Z \lor N) \land (Z \lor E) \equiv \neg Z \lor Z \land (N \lor E) \equiv N \lor E$
+\end{enumerate}
+To make the proof by contradiction, we want to yield $KB \land \neg \alpha = false$, where $\alpha = Z \land N$ since this is the result from the last homework. $\neg \alpha$ is therefore $\neg(Z \land N) \equiv \neg Z \lor \neg N$(6).\\
+Combination of 2 and 6 yields: $\neg N$(2,6) \\
+Combination of 3 and 6 yields: $\neg Z \lor \neg E$(3,6) \\
+Combination of 5 and 6 yields: $E \lor  \neg Z$(5,6) \\
+Combination of (2,6) and 3 yields: $\neg E$ ((2,6),3)\\
+Combination of (3,6) and (5,6) yields: $\neg Z$ ((3,6),(5,6))\\
+Combination of (2,6), ((2,6),3), ((3,6), (5,6)) and 1 yields: $false$ \\
+
+\section{More Resolution}
+We want to prove $KB \land \neg \alpha = false$ with $\alpha = (C \land \neg D) \lor E$ from the knowledge base:
+\begin{enumerate}
+	\item $A \lor B$
+	\item $B \lor C \lor E$
+	\item $\neg B \lor C$
+	\item $\neg B \lor \neg D$
+	\item $\neg A \lor \neg D$
+\end{enumerate}
+Therefore $\neg \alpha = \neg((C \land \neg D) \lor E) \equiv \neg(C \land \neg D) \land \neg E \equiv (\neg C \lor D) \land \neg E$\\
+This essentially means, we add two clauses: $(\neg C \lor D)$(6) and $\neg E$(7).\\
+Combination of 1 and 4 yields: $A \lor \neg D$(1,4) \\
+Combination of 2 and 7 yields: $(B \lor C)$ (2,7)\\
+Combination of (2,7) and 3 yields: $C$ ((2,7),3)\\
+Combination of (1,4) and 5 yields: $\neg D$((1,4),5)\\
+Combination of ((2,7),3) and 6 yields: $D$ (((2,7),3), 6)\\
+Combination of ((1,4),5) and (((2,7),3),6) yields: $false$ \\
+
+\section{Clauses}
+\subsection*{a)}
+	%hier bin ich mir wirklich unsicher
+	\begin{enumerate}
+		\item is a correct representation, since it only allows the exam to be written, if and only if at least five assignments have been submitted.
+		\item is also correct
+		\item is incorrect, since it is still fulfilled if A is false
+	\end{enumerate}
+\subsection*{b)}
+\begin{enumerate}
+	\item $S \Rightarrow (E \Leftrightarrow A) \equiv \neg S \lor ((E \Rightarrow A) \land (A \Rightarrow E)) \equiv \neg S \lor ((\neg E \lor A) \land (\neg A \lor E)) \equiv (\neg A \lor E \lor \neg S) \land (A \lor  \neg E \lor \neg S)$ This is a horn clause, since in each clause only one literal is positive.
+	\item $(S \land E) \Leftrightarrow A \equiv ((S \land E) \Rightarrow A) \land (A \Rightarrow (S \land E)) \equiv (\neg(S \land E) \lor A) \land (\neg A \lor (S \land E)) \equiv (\neg S \lor \neg E \lor A) \land (\neg A \lor S) \land (\neg A \lor E)$ This is a horn clause, since in each clause only one literal is positive.
+	\item $S \Rightarrow (A \Rightarrow E) \equiv (\neg S \lor (\neg A \lor E)) \equiv (\neg S \lor \neg A \lor E)$. This is a horn clause, since only the E is positive.
+\end{enumerate}
+\section{First Order logic}
+\begin{enumerate}
+	\item $Occupation(James, student) \land Occupation(James, o)$
+	\item $\neg Customer(James, Occupation(p, Architect))$
+	\item $\exists occupation(p, architect): \forall customer(occupation(p1, scientiest),p)$
+	\item $Boss(Occupation(p, Architect), Casey)$
+	\item $\forall p \in  Physicists: Occupation(p, scientist)$
+	\item $occupation(casey, physisist) \lor occupation(casey, architect)$
+	\item $\neg \exists boss(occupation(p1, architect), occupation(p2, physicist))$
+\end{enumerate}
+
+\end{document}
