@@ -1,0 +1,61 @@
+60 Punkte 60 Minuten + 5 Minuten spontane Verlängerung
+
+Aufgabe 1 - Programmieren in Lisp und Prolog:
+1. a) Was berechnet die folgende Funktion (LISP) allgemein [Funktion beinhaltete u.a. defun, cond, nil, null, cdr (evtl. noch mehr)]? Welches Ergebnis liefert sie für die konkrete Liste [Liste mit sechs Zahlen]?
+2. Schreiben Sie in Lisp eine Funktion, die zwei Listen erhält und ihr Skalarprodukt berechnet, falls sie gleich lang sind und sonst die leere Liste zurückgibt.
+3. Das gleiche in Prolog.
+
+Aufgabe 2 - Graphensuche BFS, DFS, IDDFS: 
+a) wie Hausaufgabe: Knoten durchnummerieren entsprechend der Reihenfolge, in der sie je nach o.g. Verfahren besucht werden; mehrmals besuchte Knoten öfter nummerieren
+[dreimal der gleiche Baum angegeben, Zielknoten markiert; wie Hausaufgabe]
+b) zeichnen Sie einen Graphen, auf dem IDDFS weniger Knoten besucht als BFS oder begründen Sie, warum es einen solchen nicht geben kann.
+
+Aufgabe 3 - Informierte Suche:
+a) Führen Sie auf dem gezeigten Graphen (Kantenwerte entsprechen Abstand der beteiligten Knoten; Knotenwerte entsprechen Heuristikwert für den Abstand zum Ziel) [etwa 10 Knoten] A* aus.
+Wenn ein Knoten expandiert wird, notieren Sie expand X und berechnen darunter für die Nachbarknoten g(Y) + h(Y) = f(Y).
+b) In welcher Reihenfolge würde eine Greedy-Suche die Knoten expandieren? (3 Punkte)
+
+
+Aufgabe 4: Minimax (3 Punkte) und α-β-search (9 Punkte):
+Trage für Minimax für jeden Baumknoten seinen MiniMax-Wert ein.
+Bei fülle für jeden Knoten die Tabelle
+       v α  β
+Parent
+Child1
+Child2
+Aus, sowie den Returnwert, der nach oben zurückgegeben wird.
+Pfade zu Knoten, die geprunet werden, sind zu streichen.
+
+Aufgabe 5 - Constraint Satisfaction Programming:
+Gegeben Deutschlandkarte mit 13(!) Bundesländern ähnlich Übungsaufgabe.
+a) Zeichnen Sie den zugehörigen Constraint-Graphen.
+b) Führen Sie AC-3 durch unter der Annahme, dass [etwa 4-5] Bundesländer schon beleg sind [Werte vorgegeben].
+c) Bestimmung der restlichen Werte mit Algo aus Vorlesung
+
+
+
+Aufgabe 6 - Aussagenlogik: (4+4=8Punkte)
+a) Bringen Sie folgende fünf Aussagen in konjunktive Normalform (CNF)
+b) Beweisen Sie mit Resolution und den Aussagen aus a) die Aussage (¬B∨C) ∧ D [Formel so oder sehr ähnlich]
+
+Aufgabe 7 - Prädikatenlogik:
+a) Sklolemisieren Sie die beiden folgenden Formeln:
+ [2 Aussagen mit 4~6 ∀ und ∃]
+b) Beweisen Sie per Resolution die Aussage D(x,y) ∨ ¬B(x,y) aus den Aussagen (i) - (iv) [vier Disjunktionen angegeben], negieren Sie dazu im ersten Schritt die zu beweisende Aussage und schreiben Sie zu jedem Resolutionsergebnis die Nummer der beiden Formeln, aus der es gewonnen wurde.
+
+Schema:
+(i)  ... [hier steht erste Formel]
+(ii) ... [usw.]
+(iii)...
+(iv) ...
+
+(v)  ___________   (hier negierte Aussage einfügen)
+(vi) ___________
+(vii)___________
+(viii)__________
+(ix) ___________
+(x)  ___________
+(xi) ___________
+
+
+
