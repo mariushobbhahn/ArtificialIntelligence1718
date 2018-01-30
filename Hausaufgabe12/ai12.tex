@@ -9,6 +9,7 @@
 \usepackage{color}
 \usepackage{graphicx}
 \usepackage{lastpage}
+\usepackage{enumitem}
 \usepackage{listings} 
 \usepackage{tikz}
 \usepackage{pdflscape}
@@ -122,9 +123,10 @@ These can be transformed to CNF such that:
 	\item $\neg Z \Rightarrow  \neg N \equiv Z \lor \neg N$
 	\item $E \Rightarrow N \equiv \neg E \lor N$
 	\item $E \Rightarrow \neg Z \equiv \neg E \lor \neg Z$
-	\item $Z \Rightarrow (Z \lor N) \land (Z \lor E) \equiv \neg Z \lor Z \land (N \lor E) \equiv N \lor E$
+	\item $Z  \Rightarrow (Z \land N) \lor (Z \land E) \equiv \neg Z  \lor ( (Z \land N) \lor (Z \land E)) \equiv \neg Z  \lor N \lor E$ 
 \end{enumerate}
-To make the proof by contradiction, we want to yield $KB \land \neg \alpha = false$, where $\alpha = Z \land N$ since this is the result from the last homework. $\neg \alpha$ is therefore $\neg(Z \land N) \equiv \neg Z \lor \neg N$(6).\\
+To make the proof by contradiction, we want to yield $KB \land \neg \alpha = false$, where $\alpha = Z \land N$ since this is the result from the last homework. \\
+$\neg \alpha$ is therefore $\neg(Z \land N) \equiv \neg Z \lor \neg N$(6).\\
 Combination of 2 and 6 yields: $\neg N$(2,6) \\
 Combination of 3 and 6 yields: $\neg Z \lor \neg E$(3,6) \\
 Combination of 5 and 6 yields: $E \lor  \neg Z$(5,6) \\
@@ -152,27 +154,47 @@ Combination of ((1,4),5) and (((2,7),3),6) yields: $false$ \\
 
 \section{Clauses}
 \subsection*{a)}
-	%hier bin ich mir wirklich unsicher
-	\begin{enumerate}
-		\item is a correct representation, since it only allows the exam to be written, if and only if at least five assignments have been submitted.
-		\item is also correct
-		\item is incorrect, since it is still fulfilled if A is false
-	\end{enumerate}
+	Assuming $S = True$ for University students and $S = False$ for high school students. \\\\
+	The second option $(S \land E) \Leftrightarrow A$ translates to: \\ 
+	Only University students $S$ can present the Exam $E$ if they have submitted at least 5 assignments $A$. \\\\
+	This is the correct representation of what the professor said, because it excludes high school students from presenting the exam, unlike (i). \\
+	(iii) allows all students to present the exam regardless of the amount of submitted papers.
+	
 \subsection*{b)}
 \begin{enumerate}
-	\item $S \Rightarrow (E \Leftrightarrow A) \equiv \neg S \lor ((E \Rightarrow A) \land (A \Rightarrow E)) \equiv \neg S \lor ((\neg E \lor A) \land (\neg A \lor E)) \equiv (\neg A \lor E \lor \neg S) \land (A \lor  \neg E \lor \neg S)$ This is a horn clause, since in each clause only one literal is positive.
-	\item $(S \land E) \Leftrightarrow A \equiv ((S \land E) \Rightarrow A) \land (A \Rightarrow (S \land E)) \equiv (\neg(S \land E) \lor A) \land (\neg A \lor (S \land E)) \equiv (\neg S \lor \neg E \lor A) \land (\neg A \lor S) \land (\neg A \lor E)$ This is a horn clause, since in each clause only one literal is positive.
-	\item $S \Rightarrow (A \Rightarrow E) \equiv (\neg S \lor (\neg A \lor E)) \equiv (\neg S \lor \neg A \lor E)$. This is a horn clause, since only the E is positive.
+	\item 
+		\begin{align*}
+			S \Rightarrow (E \Leftrightarrow A) 
+			&\equiv \neg S \lor ((E \Rightarrow A) \land (A \Rightarrow E)) \\ 
+			&\equiv \neg S \lor ((\neg E \lor A) \land (\neg A \lor E)) \\ 
+			&\equiv (\neg A \lor E \lor \neg S) \land (A \lor  \neg E \lor \neg S)
+		\end{align*}
+		This is a horn clause, since in each clause only one literal is positive.
+	\item 
+		\begin{align*} 
+			(S \land E) \Leftrightarrow A 
+			&\equiv ((S \land E) \Rightarrow A) \land (A \Rightarrow (S \land E)) \\ 
+			&\equiv (\neg(S \land E) \lor A) \land (\neg A \lor (S \land E)) \\ 
+			&\equiv (\neg S \lor \neg E \lor A) \land (\neg A \lor S) \land (\neg A \lor E)
+		\end{align*} 
+		This is a horn clause, since in each clause only one literal is positive.
+	\item  
+		\begin{align*}
+			S \Rightarrow (A \Rightarrow E) 
+			&\equiv (\neg S \lor (\neg A \lor E)) \\ 
+			&\equiv (\neg S \lor \neg A \lor E)
+		\end{align*}
+		This is a horn clause, since only the E is positive.
 \end{enumerate}
 \section{First Order logic}
-\begin{enumerate}
-	\item $Occupation(James, student) \land Occupation(James, o)$
+\begin{enumerate}[label=(\alph*)]
+	\item $Occupation(James, Student) \land Occupation(James, o)$
 	\item $\neg Customer(James, Occupation(p, Architect))$
-	\item $\exists occupation(p, architect): \forall customer(occupation(p1, scientiest),p)$
+	\item $\exists Occupation(p, Architect): \forall Customer(Occupation(p1, Scientiest),p)$
 	\item $Boss(Occupation(p, Architect), Casey)$
-	\item $\forall p \in  Physicists: Occupation(p, scientist)$
-	\item $occupation(casey, physisist) \lor occupation(casey, architect)$
-	\item $\neg \exists boss(occupation(p1, architect), occupation(p2, physicist))$
+	\item $\forall p \in  Physicists: Occupation(p, Scientist)$
+	\item $( Occupation(casey, Physicist) \land \neg Occupation(Casey, Architect) ) \lor (\neg Occupation(casey, Physicist) \land  Occupation(Casey, Architect))$
+	\item $\neg \exists Boss(Occupation(p1, architect), Occupation(p2, physicist))$
 \end{enumerate}
 
 \end{document}
