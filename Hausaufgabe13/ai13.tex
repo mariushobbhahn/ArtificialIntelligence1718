@@ -1,0 +1,179 @@
+\documentclass[a4paper]{article}
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[german]{babel}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{lastpage}
+\usepackage{enumitem}
+\usepackage{listings} 
+\usepackage{tikz}
+\usepackage{pdflscape}
+\usetikzlibrary{trees}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{polynom}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{forloop}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage[]{algorithm2e}
+\usepackage{fancybox}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+
+\usepackage{algorithmic}
+\usetikzlibrary{automata,arrows}
+
+\usepackage{xparse}
+\input kvmacros
+
+%Größe der Ränder setzen
+\geometry{a4paper,left=3cm, right=3cm, top=3cm, bottom=3cm}
+
+%Kopf- und Fußzeile
+\pagestyle {fancy}
+\fancyhead[L]{}
+\fancyhead[C]{Artificial Intelligence}
+\fancyhead[R]{\today}
+
+\fancyfoot[L]{}
+\fancyfoot[C]{}
+\fancyfoot[R]{Seite \thepage /\pageref*{LastPage} }
+
+
+%Formatierung der Überschrift, hier nichts ändern
+\def\header#1#2{
+\begin{center}
+{\Large\bf Übungsblatt #1} %Blatt eintragen
+
+{(Abgabetermin #2)}
+\end{center}
+}
+
+%Definition der Punktetabelle, hier nichts ändern
+\newcounter{punktelistectr}
+\newcounter{punkte}
+\newcommand{\punkteliste}[2]{%
+  \setcounter{punkte}{#2}%
+  \addtocounter{punkte}{-#1}%
+  \stepcounter{punkte}%<-- also punkte = m-n+1 = Anzahl Spalten[1]
+  \begin{center}%
+  \begin{tabularx}{\linewidth}[]{@{}*{\thepunkte}{>{\centering\arraybackslash} X|}@{}>{\centering\arraybackslash}X}
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        \thepunktelistectr & 
+      } 
+      #2 &  $\Sigma$ \\
+      \hline
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        &
+      } &\\ 
+      \forloop{punktelistectr}{#1}{\value{punktelistectr} < #2 } %
+      {%
+        &
+      } &\\ 
+    \end{tabularx}
+  \end{center}
+}
+
+
+
+\begin{document}
+
+%Hier bitte Student 1 usw ersetzen
+\begin{tabularx}{\linewidth}{m{0.2 \linewidth}X}
+\begin{minipage}{\linewidth}%
+%
+% ----------------------- TODO ---------------------------
+%Hier Namen eintragen
+%
+Marc Tomasek \\
+Marius Hobbhahn \\
+\end{minipage} & \begin{minipage}{\linewidth}%
+%
+% ----------------------- TODO ---------------------------
+%Die zweite Zahl durch die Anzahl der Aufgaben ersetzen
+%
+%
+\punkteliste{1}{4} %
+%
+\end{minipage}\\
+\end{tabularx}
+
+
+
+% ----------------------- TODO ---------------------------
+%
+%Hier Nummer und Datum aktualisieren
+\header{Nr. 13}{\today}
+%---------------------------------------------------------------------------
+
+\section{Unification}
+\begin{enumerate}
+	\item 
+		$MGU = \{l/A, v/B, u/m\}$
+	\item
+	$MGU = \{m/l, l/S\}$
+	\item
+	$MGU = \{m/W(l,l), l/A, l/B\}$ \\
+	This however is impossible, since we can't map the variable l to two different constants A and B.
+	\item
+	$MGU = \{m/A, v/B, l/P(l) \}$\\
+	This however does not pass the occur check, since the variable itself occurs in the term it is mapped to.
+	\item 
+	$\{l/P(A,m), P \neq H  \}$\\
+	P and H are not the same function, therefore a mapping is impossible.
+\end{enumerate}
+\section{Substitution and Skolemization}
+\begin{enumerate}
+	\item If we choose x as men, y as women and P(x,y) as x loves y. Then $\forall x \exists y P(x,y) \not \Rightarrow \exists q P(q,q)$, since there can be a woman or a man that does not love themself even if every man loves a woman. \\
+	In formal termes we can make a existential instantiation such that $\forall x \exists P(x,y)$ is performed to $\forall x P(x, SK_0(x))$. Now we apply the universal instantiation with $x= \{A,B\}$, such that $SK_0(A) = B$ and $SK_0(B) = A$. Since $P(A,SK_0(A)) \land P(B,(SK_0(B)) \not \Rightarrow P(A,A) \lor P(B,B)$ the implication is not valid.
+	\item 
+	We start by inferring $\exists P(q,q)$ from $\forall x\exists y P(x,y)$. We follow with an existential instantiation: $\forall x \exists y P(x,y)$ is transferred to  $\forall x P(x, SK_0(x))$.\\
+	With $x = \{x_1,x_2\}$ we can do universal instantiation such that $P(x_1, SK_0(x_1)) \land P(x_2, SK_0(x_2))$.\\
+	With the broken engine we can infer $P(q_1,q_1) \land P(q_2,q_2)$.\\
+	Because $q \in \{q_1,q_2\}$ we know $P(q_1,q_1) \land P(q_2,q_2)$ implies $\forall q P(q,q)$ and $\exists q P(q,q)$.
+	\item 
+	firstly we transform all mathematical to logical functions:
+	\begin{itemize}
+		\item $|x| \rightarrow Abs(x)$
+		\item $ x > y \rightarrow gt(x,y)$
+		\item[1] $\forall \epsilon gt(\epsilon,0) \exists n_0 \forall n gt(n,n_0) \Rightarrow gt(\epsilon, Abs(a_n))$
+		\item[Ex. inst.] $\forall \epsilon gt(\epsilon,0) \forall n gt(n,SK_0(\epsilon)) \Rightarrow gt(\epsilon, Abs(a_n))$ 
+		\item $\forall \epsilon \forall n gt(\epsilon,0) \land gt(n,SK_0(\epsilon)) \Rightarrow gt(\epsilon, Abs(a_n))$ 
+		\item define $e \in \mathbb{R}$ and $m \in \mathbb{N}$
+		\item $gt(e,0) \land gt(m, SK_0(e)) \Rightarrow GT(e, Abs(a_n))$
+	\end{itemize}
+	This can now be transformed to CNF:
+	\begin{align*}
+		gt(e,0) \land gt(m, SK_0(e)) \Rightarrow GT(e, Abs(a_n)) 
+		&\equiv \neg (gt(e,0) \land gt(m, SK_0(e))) \lor GT(e, Abs(a_n))\\
+		&\equiv \neg gt(e,0) \lor \neg gt(m, SK_0(e))) \lor GT(e, Abs(a_n))\\
+	\end{align*}
+	which is in CNF
+\end{enumerate}
+
+\section{Resolution in First-Order Logic}
+We have a statement: $A(x) \land B(f(x), y)$ and a KB and want to find out through resolution whether the statement is constistent with the KB. Therefore we add the negation $\neg (A(x) \land B(f(x),y)) \equiv \neg A(x) \lor \neg B(f(x),y)$ to the KB:
+\begin{itemize}
+	\item[1] $B(f(x_1), x_2) \lor \neg A(x_2) \lor \neg C(x_1)$
+	\item[2] $\neg D(y_1, y_2) \lor A(f(y_1))$
+	\item[3] $C(f(G))$
+	\item[4] $D(G,z_1)$
+	\item[5] $\neg A(x) \lor \neg B(f(x),y)$
+	\item[(2,4)] $A(f(G))$ with $\theta = \{y_1/G, y_2/z_1\}$
+	\item[(5,(2,4))] $\neg B(f(f(G)), y_3)$ with $\theta = \{x_3/f(G)\}$
+	\item[6 = (1,(5,(2,4)))] $\neg A(y_3) \lor \neg C(f(G))$ with $\theta = \{x_1/f(G), x_2/x_3 \}$
+	\item[7 =(3,(1,(5,(2,4))))]$\neg A(y_3)$ with $\theta = identity$
+	\item[6,7] $\square$
+\end{itemize}
+
+
+\end{document}
